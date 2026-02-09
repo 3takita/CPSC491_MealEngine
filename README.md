@@ -1,7 +1,6 @@
-# CPSC491_MealEngine
-Meals optimize for your goals
+# 🍽️ OptiMeal
 
-**MealEngine** is a Swift-based iOS app designed to help users optimize their meals based on personal health and dietary goals. Built with SwiftUI and leveraging the power of algorithms and persistent data storage, MealEngine provides a personalized meal-planning experience.
+**OptiMeal** is a Swift-based iOS app designed to help users optimize their meals based on personal health and dietary goals. Built with SwiftUI and leveraging the power of algorithms and persistent data storage, OptiMeal provides a personalized meal-planning experience.
 
 ---
 
@@ -25,7 +24,7 @@ Meals optimize for your goals
 
 ## 🧩 Core UI Elements
 
-MealEngine uses **8–9 essential SwiftUI elements** for interaction and layout:
+OptiMeal uses **8–9 essential SwiftUI elements** for interaction and layout:
 
 - `Text`
 - `TextField`
@@ -76,17 +75,21 @@ The app uses a consistent theme with **3 main custom colors** for branding and v
 
 ---
 
-## Installation
+## 📦 Installation
 
 1. Clone the repository:
    ```bash
-   git clone git@github.com:3takita/CPSC491_MealEngine.git
+   git clone git@github.com:3takita/CPSC411_NutritionApp.git
 2. Open the project in Xcode:
-open MealEngine.xcodeproj
+open OptiMeal.xcodeproj
 3. Run on a simulator or physical iPhone.
 
-Group Members and Contributors
+🤝 Group Members and Contributors
 -  `Stephen Anaba as Code Keeper`
+-  `Liam Knight as Presenter`
+-  `Jane Lin as API Lead`
+-  `Curtis Quan-Tran as Data Lead`
+-  `Angel Orduna as GUI Lead`
 
-License:
-	This project is licensed under the MIT License. See LICENSE file for details.
+📝 License:
+	This project is licensed under the MIT License. See LICENSE file for details..

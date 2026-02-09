@@ -35,14 +35,14 @@
 			path = MealEngine;
 			sourceTree = "<group>";
 		};
-		D508F8682E77468D00DE5B95 /* MealEngineTests */ = {
+		D508F8682E77468D00DE5B95 /* OptiMealTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MealEngineTests;
+			path = OptiMealTests;
 			sourceTree = "<group>";
 		};
-		D508F8722E77468D00DE5B95 /* MealEngineUITests */ = {
+		D508F8722E77468D00DE5B95 /* OptiMealUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MealEngineUITests;
+			path = OptiMealUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -76,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				D508F85A2E77468B00DE5B95 /* MealEngine */,
-				D508F8682E77468D00DE5B95 /* MealEngineTests */,
-				D508F8722E77468D00DE5B95 /* MealEngineUITests */,
+				D508F8682E77468D00DE5B95 /* OptiMealTests */,
+				D508F8722E77468D00DE5B95 /* OptiMealUITests */,
 				D508F8592E77468B00DE5B95 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -131,7 +131,7 @@
 				D508F8672E77468D00DE5B95 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D508F8682E77468D00DE5B95 /* MealEngineTests */,
+				D508F8682E77468D00DE5B95 /* OptiMealTests */,
 			);
 			name = MealEngineTests;
 			packageProductDependencies = (
@@ -154,7 +154,7 @@
 				D508F8712E77468D00DE5B95 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D508F8722E77468D00DE5B95 /* MealEngineUITests */,
+				D508F8722E77468D00DE5B95 /* OptiMealUITests */,
 			);
 			name = MealEngineUITests;
 			packageProductDependencies = (
@@ -397,7 +397,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V5UWMCVKGT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -410,7 +409,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "CPSC491-MealEngine";
+				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -425,7 +424,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V5UWMCVKGT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -438,7 +436,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "CPSC491-MealEngine";
+				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMeal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

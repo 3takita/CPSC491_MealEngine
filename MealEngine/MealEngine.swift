@@ -16,7 +16,7 @@
 import SwiftUI
 
 @main
-struct MealEngineApp: App {
+struct MealEngine: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

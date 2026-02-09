@@ -207,7 +207,7 @@ class MealPlannerViewModel: ObservableObject {
         // persistHistory()
         
         // Create meal and add to today
-        let meal = createMealFromChosenFoods()
+        // let meal = createMealFromChosenFoods()
         // addMealToToday(meal)
         
         // Update today's progress
