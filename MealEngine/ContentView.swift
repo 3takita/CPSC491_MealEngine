@@ -1,10 +1,7 @@
-//
 //  ContentView.swift
 //  ==================
-//  Group Members: 
-//  ------------------
-//  1.	Stephen Anaba as Code Keeper
-//
+//  Functional Requirement:- The system shall provide a container view for navigation hierarchy.
+//  Non-functional Requirement:- Acts as Root routing point
 
 import SwiftUI
 
@@ -23,15 +20,6 @@ struct ContentView: View {
             }
             .tag(0)
             
-            // History Tab
-            /* NavigationView {
-                HistoryView(vm: vm)
-            } 
-            .tabItem {
-                Label("History", systemImage: "calendar")
-            }
-            .tag(1) */
-            
             // Goals Tab
             NavigationView {
                 DailyGoalsView(vm: vm)
@@ -39,16 +27,7 @@ struct ContentView: View {
             .tabItem {
                 Label("Goals", systemImage: "target")
             }
-            .tag(1) // .tag(2)
-            
-            // Settings Tab
-            /* NavigationView {
-                SettingsView(vm: vm)
-            }
-            .tabItem {
-                Label("Settings", systemImage: "gearshape")
-            }
-            .tag(3) */
+            .tag(1)
         }
         .accentColor(Theme.primary)
         // VALIDATIOIN alert
@@ -63,13 +42,6 @@ struct ContentView: View {
         )
     }
 
-        /*.alert(item: $vm.inputErrorMessage) { msg in
-            Alert(
-                title: Text("Invalid Input"),
-                message: Text(msg),
-                dismissButton: .default(Text("OK"))
-            )
-        } */ // end of VALIDATION alert
         .onAppear {
             // Update today's progress when app appears
             vm.updateTodayProgress()

@@ -1,6 +1,8 @@
+// Functional Requirement:- The system shall represent a food item with nutritional values.
+// Non-functional Requirement:- Provides Food Name, Calories, Protein, Carbs, Fat
+
 import Foundation
 
-/// Represents a food item
 struct Food: Codable, Identifiable {
     var id = UUID()
     let name: String

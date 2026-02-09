@@ -11,10 +11,8 @@ struct OFFProduct: Codable {
     let nutriments: OFFNutriments?
 }
 
-// Nutriments used per 100g. All optional because some entries may lack data.
+// Nutrients used per 100g. All optional because some entries may lack data.
 struct OFFNutriments: Codable {
-    // Open Food Facts sometimes uses keys like "energy-kcal_100g" and "proteins_100g".
-    // We'll support common variants via CodingKeys.
     let energyKcal100g: Double?
     let proteins100g: Double?
     let fat100g: Double?

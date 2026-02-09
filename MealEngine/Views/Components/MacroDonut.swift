@@ -1,3 +1,6 @@
+// Requirement: Visualize macro distribution.
+// Improves: UX Readability
+
 import SwiftUI
 
 struct MacroDonut: View {

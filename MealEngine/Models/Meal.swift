@@ -1,3 +1,7 @@
+// Requirement Type:- Functional
+// Requirement Addressed:- The system shall represent a collection of foods as a meal
+// Usage: saveMeal() and Future history (next project phase). 
+
 import Foundation
 
 struct Meal: Codable, Identifiable {

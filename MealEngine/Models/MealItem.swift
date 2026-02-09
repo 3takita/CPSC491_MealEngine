@@ -1,3 +1,7 @@
+// Requirement Type:- Functional
+// Requirement Description:- The system shall represent a food with quantity and units
+// Usage:- For portion abstraction; critical for scaling and editing meals
+
 import Foundation
 
 struct MealItem: Codable, Identifiable {

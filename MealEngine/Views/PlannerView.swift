@@ -1,17 +1,7 @@
-//  ContentView.swift
-//  NutriPlanner -- Meals optimized for your goals
-//  Features: knapsack algorithm, Nutrionix API
-//  Required: 3 data types (string, double, bool. Food), 3 screens, 3 colors, 3 GUI objects (8-9 core UI elements)
-//  ...and persistent data storage
-//  ==================
-//  Group Members: 
-//  ------------------
-//  1.	Stephen Anaba as Code Keeper
-//  2.	Liam Knight as Presenter
-//  3.  Jane Lin as API Lead
-//  4.  Curtis Quan-Tran as Data Lead
-//  5.  Angel Orduna as GUI Lead 
-//  ====================
+// PlannerView.swift
+// ==================
+// Functioanl Requirement:- System shall allow user enter calorie limit, search and input foods, view suggested foods, save a meal
+// Non-functional Requirement: Usability, Layout clarity, Immediate feedback
 
 import SwiftUI
 
@@ -250,40 +240,11 @@ struct PlannerView: View {
             
             // Total nutrients - Show ALL macros if tracked
             HStack(spacing: 12) {
-                totalPill( // remove this & restore commented
+                totalPill(
                     title: "Calories",
                     value: "\(Int(vm.totalCalories()))",
                     color: Theme.primary
-                )
-
-                /* if $vm.trackCalories {
-                    totalPill(
-                        title: "Cal",
-                        value: "\(Int(vm.totalCalories()))",
-                        color: Theme.primary
-                    )
-                }
-                if vm.trackProtein {
-                    totalPill(
-                        title: "Protein",
-                        value: "\(Int(vm.totalProtein()))g",
-                        color: Theme.success
-                    )
-                }
-                if vm.trackCarbs {
-                    totalPill(
-                        title: "Carbs",
-                        value: "\(Int(vm.totalCarbs()))g",
-                        color: Theme.accent
-                    )
-                }
-                if vm.trackFat {
-                    totalPill(
-                        title: "Fat",
-                        value: "\(Int(vm.totalFat()))g",
-                        color: Theme.warning
-                    )
-                } */
+                ) 
             }
             
             // Food list
@@ -325,39 +286,7 @@ struct PlannerView: View {
                     value: "\(Int(food.calories))",
                     unit: "kcal",
                     color: Theme.primary
-                )
-                /* if $vm.trackCalories {
-                    nutrientLabel(
-                        icon: "flame.fill",
-                        value: "\(Int(food.calories))",
-                        unit: "kcal",
-                        color: Theme.primary
-                    )
-                }
-                if vm.trackProtein {
-                    nutrientLabel(
-                        icon: "p.circle.fill",
-                        value: "\(Int(food.protein))",
-                        unit: "g",
-                        color: Theme.success
-                    )
-                }
-                if vm.trackCarbs {
-                    nutrientLabel(
-                        icon: "c.circle.fill",
-                        value: "\(Int(food.carbs))",
-                        unit: "g",
-                        color: Theme.accent
-                    )
-                }
-                if vm.trackFat {
-                    nutrientLabel(
-                        icon: "f.circle.fill",
-                        value: "\(Int(food.fat))",
-                        unit: "g",
-                        color: Theme.warning
-                    )
-                } */
+                ) 
                 Spacer()
             }
             .font(.caption)

@@ -1,17 +1,7 @@
-//  ContentView.swift
-//  NutriPlanner -- Meals optimized for your goals
-//  Features: knapsack algorithm, Nutrionix API
-//  Required: 3 data types (string, double, bool. Food), 3 screens, 3 colors, 3 GUI objects (8-9 core UI elements)
-//  ...and persistent data storage
-//  ==================
-//  Group Members: 
-//  ------------------
-//  1.	Stephen Anaba as Code Keeper
-//  2.	Liam Knight as Presenter
-//  3.  Jane Lin as API Lead
-//  4.  Curtis Quan-Tran as Data Lead
-//  5.  Angel Orduna as GUI Lead 
-//  ====================
+// DailyGoalsView.swift
+// ====================
+// Functional Requirement:- Display goal values
+// Non-functional Requirement:- Provide Progress visualization
 
 import SwiftUI
 #if canImport(UIKit)
@@ -67,7 +57,7 @@ struct DailyGoalsView: View {
         let fatPercent = Int(round(vm.currentFat / max(vm.goals.fat, 1) * 100))
 
         return """
-        🥗 OptiMeal – Daily Goals (\(dateString))
+        🥗 MealEngine – Daily Goals (\(dateString))
 
         Calories: \(Int(vm.currentCalories)) / \(Int(vm.goals.calories)) kcal (\(calPercent)%)
         Protein:  \(Int(vm.currentProtein))g / \(Int(vm.goals.protein))g (\(proteinPercent)%)
@@ -80,7 +70,7 @@ struct DailyGoalsView: View {
 
     // Share link
     private var shareLinkString: String {
-        "https://optimeal.app/share/today" // TODO: if we have our own link, we can switch it
+        "https://mealengine.app/share/today" // TODO: if we have our own link, we can switch it
     }
 
     var body: some View {
