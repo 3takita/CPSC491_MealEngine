@@ -1,3 +1,5 @@
+// This file contains API data structures
+
 import Foundation
 
 // Top-level response for Open Food Facts search API

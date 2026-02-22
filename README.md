@@ -64,6 +64,10 @@ The app uses a consistent theme with **3 main custom colors** for branding and v
 
 ---
 
+## Screenshots
+
+![Home Screen](images/screenshot1.png)
+
 ## Technologies
 
 - **Language**: Swift 5
