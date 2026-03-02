@@ -1,7 +1,9 @@
-// Requirement Type:- Functional 
-// Requirement Addressed:- The system shall store daily nutrition targets.
-// Usage:- Provides Food Name, Calories, Protein, Carbs, Fat
-// Used by: PlannerView, MealPlannerViewModel
+/*
+Purpose:
+Represents user-defined daily nutrient goals (calories, protein, fat, carbs).
+HLFR Tied To:
+HLFR-4: Goal Management
+*/
 
 import Foundation
 

@@ -1,6 +1,9 @@
-// Requirement Type:- Functional
-// Requirement Addressed:- The system shall represent a collection of foods as a meal
-// Usage: saveMeal() and Future history (next project phase). 
+/*
+Purpose:
+Represents a complete meal composed of multiple MealItem objects and aggregated nutrient totals.
+HLFR Tied To:
+HLFR-3: Meal Tracking & History
+*/ 
 
 import Foundation
 

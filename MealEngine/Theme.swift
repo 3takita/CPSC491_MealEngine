@@ -1,8 +1,4 @@
 // Theme.swift
-// ===========
-// Non-Functional Requirement:- The UI shall be visually consistent.
-// Non-functional Requirement:- Defines Colors, Styling, and Branding
-
 import SwiftUI
 
 enum Theme {

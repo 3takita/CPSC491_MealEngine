@@ -1,6 +1,9 @@
-// Requirement Type:- Functional
-// Requirement Description:- The system shall represent a food with quantity and units
-// Usage:- For portion abstraction; critical for scaling and editing meals
+/*
+Purpose:
+Represents a single food entry inside a meal, including portion size and unit.
+HLFR Tied To:
+HLFR-3: Meal Tracking & History
+*/
 
 import Foundation
 

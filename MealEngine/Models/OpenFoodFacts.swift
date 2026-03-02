@@ -1,20 +1,25 @@
-// This file contains API data structures
+/*
+Purpose:
+Decoding structure for parsing JSON responses from the Open Food Facts API.
+HLFR Tied To:
+HLFR-1: Food Search & Retrieval
+*/
 
 import Foundation
 
-// Top-level response for Open Food Facts search API
+/// API response from Open Food Facts
 struct OpenFoodFactsResponse: Codable {
-    let products: [OFFProduct]
+    let products: [OpenFoodProduct]
 }
 
-// Product model with the subset of fields we use
-struct OFFProduct: Codable {
+/// Product returned from Open Food Facts
+struct OpenFoodProduct: Codable {
     let product_name: String?
-    let nutriments: OFFNutriments?
+    let nutriments: Nutriments?
 }
 
-// Nutrients used per 100g. All optional because some entries may lack data.
-struct OFFNutriments: Codable {
+/// Nutritional info returned from Open Food Facts
+struct Nutriments: Codable {
     let energyKcal100g: Double?
     let proteins100g: Double?
     let fat100g: Double?

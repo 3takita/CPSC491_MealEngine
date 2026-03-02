@@ -57,7 +57,7 @@ struct DailyGoalsView: View {
         let fatPercent = Int(round(vm.currentFat / max(vm.goals.fat, 1) * 100))
 
         return """
-        🥗 MealEngine – Daily Goals (\(dateString))
+        🥗 OptiMeal – Daily Goals (\(dateString))
 
         Calories: \(Int(vm.currentCalories)) / \(Int(vm.goals.calories)) kcal (\(calPercent)%)
         Protein:  \(Int(vm.currentProtein))g / \(Int(vm.goals.protein))g (\(proteinPercent)%)
@@ -70,7 +70,7 @@ struct DailyGoalsView: View {
 
     // Share link
     private var shareLinkString: String {
-        "https://mealengine.app/share/today" // TODO: if we have our own link, we can switch it
+        "https://optimeal.app/share/today" // TODO: if we have our own link, we can switch it
     }
 
     var body: some View {
@@ -415,7 +415,7 @@ private struct CaloriesBar: View {
 
 // MARK: - Helpers
 
-extension String: @retroactive Identifiable { // VALIDATION
+extension String: Identifiable { // VALIDATION
     public var id: String { self }
 }
 

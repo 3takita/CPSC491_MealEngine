@@ -1,5 +1,10 @@
-// Functional Requirement:- The system shall represent a food item with nutritional values.
-// Non-functional Requirement:- Provides Food Name, Calories, Protein, Carbs, Fat
+/*
+Purpose:
+Represents a food item with nutritional data (calories, protein, fat, carbs). Used for API decoding and meal calculations.
+HLFR Tied To:
+HLFR-1: Food Search & Retrieval
+HLFR-2: Nutrient Optimization
+*/
 
 import Foundation
 

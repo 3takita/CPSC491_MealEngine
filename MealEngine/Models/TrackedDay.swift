@@ -1,3 +1,11 @@
+/*
+Purpose:
+Represents aggregated nutrient totals for a specific calendar day compared to goal values.
+HLFR Tied To:
+HLFR-3: Daily Progress Tracking
+HLFR-4: Goal Comparison
+*/
+
 import Foundation
 
 struct TrackedDay: Identifiable, Hashable, Codable {

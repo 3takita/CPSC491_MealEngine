@@ -1,7 +1,9 @@
-// MealEngineApp.swift
-// ====================
-// Functional Requirement: The system shall launch the main interface.
-// Non-functional Requirement:- Creates Root navigation & Injects ViewModel
+/*
+Purpose:
+Application entry point. Initializes the SwiftUI app lifecycle and creates the root ViewModel instance.
+HLFR Tied To:
+Infrastructure (supports all HLFRs)
+*/
 
 import SwiftUI
 
