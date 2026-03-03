@@ -57,14 +57,14 @@ struct DailyGoalsView: View {
         let fatPercent = Int(round(vm.currentFat / max(vm.goals.fat, 1) * 100))
 
         return """
-        🥗 OptiMeal – Daily Goals (\(dateString))
+        MealEngine – Daily Goals (\(dateString))
 
         Calories: \(Int(vm.currentCalories)) / \(Int(vm.goals.calories)) kcal (\(calPercent)%)
         Protein:  \(Int(vm.currentProtein))g / \(Int(vm.goals.protein))g (\(proteinPercent)%)
         Carbs:    \(Int(vm.currentCarbs))g / \(Int(vm.goals.carbs))g (\(carbsPercent)%)
         Fat:      \(Int(vm.currentFat))g / \(Int(vm.goals.fat))g (\(fatPercent)%)
 
-        Join me and track your daily goals too! 💪
+        Join me and track your daily goals too!
         """
     }
 
