@@ -162,6 +162,7 @@ struct DailyGoalsView: View {
             .padding()
             .background(Theme.surface.ignoresSafeArea())
         }
+        .scrollDismissesKeyboard(.interactively) // improve keyboard interraction & reduce constraint warnings
         .navigationTitle("Daily Goals")
         .background(Theme.surface.ignoresSafeArea())
         .toolbar {
@@ -186,7 +187,8 @@ struct DailyGoalsView: View {
             }
             Button("Cancel", role: .cancel) {}
         }
-        .onTapGesture { hideKeyboard() }
+        // .onTapGesture { hideKeyboard() }
+        .scrollDismissesKeyboard(.interactively) // better, modern
     }
     // MARK: - Share CTA Section
     private var shareCTASection: some View {
