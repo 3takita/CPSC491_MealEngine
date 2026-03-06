@@ -1,9 +1,6 @@
-/*
-Purpose:
-Represents a single food entry inside a meal, including portion size and unit.
-HLFR Tied To:
-HLFR-3: Meal Tracking & History
-*/
+
+// PURPOSE: Represents a single food entry inside a meal, including portion size and unit.
+// HLFR: The system shall allow users to add food items to meals with quantitiies
 
 import Foundation
 

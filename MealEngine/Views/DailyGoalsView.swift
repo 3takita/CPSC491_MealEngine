@@ -1,7 +1,5 @@
-// DailyGoalsView.swift
-// ====================
-// Functional Requirement:- Display goal values
-// Non-functional Requirement:- Provide Progress visualization
+// PURPOSE: Displays current progress toward daily nutrition goals, including macro visualizations and totals.
+// HLFR: The system shall display the user's progress toward daily nutritional targets.
 
 import SwiftUI
 #if canImport(UIKit)

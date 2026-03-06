@@ -1,9 +1,5 @@
-/*
-Purpose:
-Decoding structure for parsing JSON responses from the Open Food Facts API.
-HLFR Tied To:
-HLFR-1: Food Search & Retrieval
-*/
+// PURPOSE: Decoding structure for parsing JSON responses from the Open Food Facts API.
+// HLFR: Food Search & Retrieval
 
 import Foundation
 

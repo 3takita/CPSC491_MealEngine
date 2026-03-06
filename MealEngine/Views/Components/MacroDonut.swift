@@ -1,3 +1,6 @@
+// PURPOSE: A reusable UI component that visualizes macro-nutrien distribution using a donum chart.
+// HLFR: The system shall visually display macro-nutrient consumption
+
 import SwiftUI
 
 struct MacroDonut: View {

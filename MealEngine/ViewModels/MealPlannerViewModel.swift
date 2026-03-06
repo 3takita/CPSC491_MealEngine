@@ -1,11 +1,6 @@
 // Purpose:
 // Main application ViewModel that manages business logic, state management, API communication, nutrient optimization (knapsack), meal tracking, goals, preferences, and persistence.
-// High Level Funciton Requirement Tied To:
-// • HLFR-1: Food Search & Retrieval
-// • HLFR-2: Nutrient Optimization
-// • HLFR-3: Meal Tracking & History
-// • HLFR-4: Goal & Preference Management
-// • HLFR-5: Data Persistence
+// The system shall manage meal planning and nutritional tracking 
 
 import Foundation
 import Combine

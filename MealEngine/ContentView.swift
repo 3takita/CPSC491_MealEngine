@@ -1,8 +1,6 @@
 /*
-Purpose:
-Root navigation container for the application. Manages main tabs or navigation stack and injects MealPlannerViewModel into child views.
-HLFR Tied To:
-Supports All HLFRs (Entry point UI coordination)
+PURPOSE: Main container view of the application. Coordinates navigation between primary screens like planner, history, settings view.
+HLFR: Supports All HLFRs (Entry point UI coordination)
 */
 
 import SwiftUI

@@ -1,3 +1,5 @@
+// PURPOSE: Represents an individual day cell within the goal calendar, visually indicating whether the user met their nutritional targets.
+// HLFR: The system shall visually indicate goal completion in the calendar.
 
 import SwiftUI
 

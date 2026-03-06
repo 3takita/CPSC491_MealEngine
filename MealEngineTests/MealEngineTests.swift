@@ -1,9 +1,9 @@
 
 
 import Testing
-@testable import OptiMeal
+@testable import MealEngine
 
-struct OptiMealTests {
+struct MealEngineTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

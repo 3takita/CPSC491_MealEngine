@@ -1,6 +1,6 @@
 import XCTest
 
-final class OptiMealUITestsLaunchTests: XCTestCase {
+final class MealEngineUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

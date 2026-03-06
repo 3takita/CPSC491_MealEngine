@@ -1,9 +1,5 @@
-/*
-Purpose:
-Displays previously saved meals and historical meal selections.
-HLFR Tied To:
-HLFR-3: Meal History
-*/
+// Purpose: Displays historical tracking data, allowing the user to review previous.
+// HLFR: The system shall allow users to review past nutrition history 
 
 import SwiftUI
 

@@ -1,9 +1,5 @@
-/*
-Purpose:
-Represents user-defined daily nutrient goals (calories, protein, fat, carbs).
-HLFR Tied To:
-HLFR-4: Goal Management
-*/
+// Purpose: Represents user-defined daily nutrient goals (calories, protein, fat, carbs).
+// HLFR: The system shall allow the user to define daily nutrition
 
 import Foundation
 

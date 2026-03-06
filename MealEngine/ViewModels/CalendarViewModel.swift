@@ -1,14 +1,5 @@
-//  CalendarViewModel.swift
-//  MealEngine
-//
-//  Purpose:
-//  Manages calendar-based nutrition tracking.
-//  Responsible for creating, retrieving, and updating TrackedDay objects.
-//
-//  High-Level Functional Requirement (HLFR):
-//  HLFR-03: The system shall provide a calendar-based history
-//  of tracked nutrition and allow daily aggregation of meals.
-//
+// PURPOSE: Handles the logic for displaying historical nutrition data in a calendar format.
+// FR: The system shall allow users to review historical nutrition progress.
 
 import Foundation
 

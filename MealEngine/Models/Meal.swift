@@ -2,7 +2,7 @@
 Purpose:
 Represents a complete meal composed of multiple MealItem objects and aggregated nutrient totals.
 HLFR Tied To:
-HLFR-3: Meal Tracking & History
+HLFR-3: The system shall allow users to group food items into meals 
 */ 
 
 import Foundation

@@ -1,9 +1,5 @@
-/*
-Purpose:
-Allows user to configure nutrient tracking preferences and persist settings.
-HLFR Tied To:
-HLFR-4: Preference Management
-*/
+// Purpose: Allows user to configure nutrient tracking preferences and persist settings.
+// HLFR: The system shall allow users to modify application settings and personal goals.
 
 import SwiftUI
 

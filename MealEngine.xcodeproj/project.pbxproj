@@ -12,14 +12,14 @@
 			containerPortal = D508F8502E77468B00DE5B95 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D508F8572E77468B00DE5B95;
-			remoteInfo = OptiMeal;
+			remoteInfo = MealEngine;
 		};
 		D508F8702E77468D00DE5B95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D508F8502E77468B00DE5B95 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D508F8572E77468B00DE5B95;
-			remoteInfo = OptiMeal;
+			remoteInfo = MealEngine;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -38,11 +38,6 @@
 		D508F8682E77468D00DE5B95 /* MealEngineTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MealEngineTests;
-			sourceTree = "<group>";
-		};
-		D508F8722E77468D00DE5B95 /* MealEngineUIITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MealEngineUIITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -77,7 +72,6 @@
 			children = (
 				D508F85A2E77468B00DE5B95 /* MealEngine */,
 				D508F8682E77468D00DE5B95 /* MealEngineTests */,
-				D508F8722E77468D00DE5B95 /* MealEngineUIITests */,
 				D508F8592E77468B00DE5B95 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,7 +107,7 @@
 			name = MealEngine;
 			packageProductDependencies = (
 			);
-			productName = OptiMeal;
+			productName = MealEngine;
 			productReference = D508F8582E77468B00DE5B95 /* MealEngine.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -136,7 +130,7 @@
 			name = MealEngineTests;
 			packageProductDependencies = (
 			);
-			productName = OptiMealTests;
+			productName = MealEngineTests;
 			productReference = D508F8652E77468D00DE5B95 /* MealEngineTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -153,13 +147,10 @@
 			dependencies = (
 				D508F8712E77468D00DE5B95 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				D508F8722E77468D00DE5B95 /* MealEngineUIITests */,
-			);
 			name = MealEngineUITests;
 			packageProductDependencies = (
 			);
-			productName = OptiMealUITests;
+			productName = MealEngineUITests;
 			productReference = D508F86F2E77468D00DE5B95 /* MealEngineUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -399,6 +390,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MealEngine;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -409,7 +402,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMeal;
+				PRODUCT_BUNDLE_IDENTIFIER = CPSC491.MealEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -426,6 +419,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MealEngine;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -436,7 +431,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMeal;
+				PRODUCT_BUNDLE_IDENTIFIER = CPSC491.MealEngine;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -453,12 +448,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMealTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.MealEngineTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OptiMeal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OptiMeal";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealEngine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MealEngine";
 			};
 			name = Debug;
 		};
@@ -471,12 +466,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.OptiMealTests;
+				PRODUCT_BUNDLE_IDENTIFIER = cpsc411.MealEngineTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OptiMeal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OptiMeal";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MealEngine.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MealEngine";
 			};
 			name = Release;
 		};
@@ -493,7 +488,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OptiMeal;
+				TEST_TARGET_NAME = MealEngine;
 			};
 			name = Debug;
 		};
@@ -510,7 +505,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OptiMeal;
+				TEST_TARGET_NAME = MealEngine;
 			};
 			name = Release;
 		};

@@ -1,4 +1,5 @@
-// Theme.swift
+// PURPOSE: Defines the application's visual theme, including colors, styling rules, 7 UI consistency elements used throughout the interface
+// HLFR: The system shall provide a consistent and visually coherent user interface
 import SwiftUI
 
 enum Theme {

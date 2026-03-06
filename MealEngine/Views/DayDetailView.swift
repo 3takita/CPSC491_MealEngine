@@ -1,3 +1,5 @@
+// PURPOSE: Displays detailed information for a selected day, including all meals and food entries.
+// HLFR: The system shall allow users to view detailes daily intake information.
 
 import SwiftUI
 

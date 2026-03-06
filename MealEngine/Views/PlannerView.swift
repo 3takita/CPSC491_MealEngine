@@ -1,3 +1,6 @@
+// PURPOSE: Provides the main meal planning interface, allowing users to add, modify, or review meals for the current day.
+// HLFR: The system shall allow users to plan and log meals
+
 import SwiftUI
 
 /// Meal Planner screen
