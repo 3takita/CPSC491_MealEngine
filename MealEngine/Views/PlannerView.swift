@@ -28,7 +28,7 @@ struct PlannerView: View {
             .padding()
         }
         .background(Theme.surface.ignoresSafeArea())
-        .navigationTitle("Meal Planner")
+        .navigationTitle("Meal Engine")
         .alert("Meal Saved!", isPresented: $showSaveConfirmation) {
             Button("OK", role: .cancel) { }
         } message: {
