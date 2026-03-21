@@ -21,16 +21,26 @@ class LanguageManager: ObservableObject {
         if currentLanguage == "zh" {
             translations = [
                 "welcome": "欢迎",
-                "meal_planner": "餐食规划",
+                "planner": "规划",
+                "history": "历史",
+                "goals": "目标",
+                "settings": "设置",
                 "summary": "总结",
-                "switch_language": "切换语言"
+                "switch_language": "切换语言",
+                "invalid_input": "输入无效",
+                "ok": "确定"
             ]
         } else {
             translations = [
                 "welcome": "Welcome",
-                "meal_planner": "Meal Planner",
+                "planner": "Planner",
+                "history": "History",
+                "goals": "Goals",
+                "settings": "Settings",
                 "summary": "Summary",
-                "switch_language": "Switch Language"
+                "switch_language": "Switch Language",
+                "invalid_input": "Invalid Input",
+                "ok": "OK"
             ]
         }
     }
