@@ -1,2 +1,7 @@
 git-push-helper.sh
 githelper.sh
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+DerivedData/
