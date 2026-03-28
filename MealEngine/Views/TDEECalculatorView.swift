@@ -650,7 +650,7 @@ struct TDEECalculatorView: View {
         let bmr: Double
         switch sex {
         case .male:
-            bmr = (10 * weightKg) + (6.25 * heightCmVal) - (5 * ageVal )+ 5
+            bmr = (10 * weightKg) + (6.25 * heightCmVal) - (5 * ageVal) + 5
         case .female:
             bmr = (10 * weightKg) + (6.25 * heightCmVal) - (5 * ageVal ) - 161
         }
