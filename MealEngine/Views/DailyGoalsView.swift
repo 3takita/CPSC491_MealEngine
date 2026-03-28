@@ -415,10 +415,6 @@ private struct CaloriesBar: View {
 
 // MARK: - Helpers
 
-extension String: Identifiable { // VALIDATION
-    public var id: String { self }
-}
-
 private extension View {
     @ViewBuilder
     func cardBackground() -> some View {

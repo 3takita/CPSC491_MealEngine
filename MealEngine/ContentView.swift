@@ -51,10 +51,10 @@ struct ContentView: View {
         }
         .accentColor(Theme.primary)
         // VALIDATIOIN alert
-        .alert(item: $vm.inputErrorMessage) { msg in
+        .alert(item: $vm.inputErrorMessage.asIdentifiable()) { identifiable in
             Alert(
                 title: Text("Invalid Input"),
-                message: Text(msg),
+                message: Text(identifiable.value),
                 dismissButton: .default(Text("OK"))
             )
         } // end of VALIDATION alert
@@ -69,3 +69,4 @@ struct ContentView: View {
     ContentView()
         .preferredColorScheme(.light)
 }
+
