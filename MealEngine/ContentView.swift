@@ -48,12 +48,17 @@ struct ContentView: View {
             .tag(3)
         }
         .accentColor(Theme.primary)
-        // VALIDATIOIN alert
-        .alert(item: $vm.inputErrorMessage) { msg in
+        // VALIDATION alert
+        .alert(
+            isPresented: Binding<Bool>(
+                get: { vm.inputErrorMessage != nil },
+                set: { newValue in if !newValue { vm.inputErrorMessage = nil } }
+            )
+        ) {
             Alert(
                 title: Text("Invalid Input"),
-                message: Text(msg),
-                dismissButton: .default(Text("OK"))
+                message: Text(vm.inputErrorMessage ?? ""),
+                dismissButton: .default(Text("OK"), action: { vm.inputErrorMessage = nil })
             )
         } // end of VALIDATION alert
         .onAppear {
