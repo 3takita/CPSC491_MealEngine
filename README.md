@@ -1,31 +1,45 @@
 # MealEngine
-
-**MealEngine** is a Swift-based iOS app designed to help users optimize their meals based on personal health and dietary goals. Built with SwiftUI and leveraging the power of algorithms and persistent data storage, MealEngine provides a personalized meal-planning experience.
+**MealEngine** is a Swift-based iOS app designed to help users **meet their dietary goals before (not after) meals are consumed**. Unlike traditional calorie trackers that analyze past behavior, MealEngine meets and supports users where they are. The app leverages a Knapsack optimization algorithm to recommend meals in real time that respect user-defined goals.
 
 ---
 
 ## App Features
+1. **Personalized Goal Engine**
+• Calculates TDEE (Total Daily Energy Expenditure)
+• Defines calorie and macronutrient targets
 
-- ⚖️**Optimizes meal plans** using the **Knapsack algorithm** to balance nutrition (calories, protein, fat, carbs) according to user-defined goals.
-- **Integrates with a food API** to fetch real-world food data.
-- **Persistent storage** to save user preferences and meal plans locally.
-- Beautiful UI with **3 custom colors** and a clean, modern layout.
-- Utilizes 4 data types:  
-  - `Double` for quantities and calorie counts  
-  - `String` for food names and user preferences  
-  - `Bool` for dietary filters and toggles  
-  - Custom `Food` type for modeling nutrition info
-- **3 Main Screens**:
-  - **Welcome / Goal Setup** – set dietary goals and preferences
-  - **Meal Planner** – select, edit, and generate meal plans
-  - **Summary / Recommendations** – view optimized meals and stats
+2. **Knapsack Optimization Algorithm**
+• **Selects optimal food combinations** to meet calorie, protein, fat, or carbs target
+• Maximizes nutrition while respecting constraints
+
+3. **Real-Time Food Data Integration**
+• Fetches nutritional data from external Food API
+• Supports a wide range of food options
+
+4. **User Persistence**
+• Stores dietary preferences and restrictions locally
+• Maintains historical data for contunuity
+
+5. **Core Views**
+• Planner View - Home page for user good and target selection
+• Calendar View - Track dietary consistency
+• Settings View - Manage prefernces and goals
+
+## Core Concept
+MealEngine transforms nutrition from a reactive tracking process into a proactive decision-making system, ensuring every meal constributs toward the user's health goals.
+
+## Tech Stack
+• Swift
+• SwiftUI
+• Local Persistence (UserDefaults / file storage)
+• REST API integration
+• Optimization algorithms (Knapsack)
+• Storage: `UserDefaults`, `Codable`, `@AppStorage`
 
 ---
 
 ## Core UI Elements
-
-MealEngine uses **8–9 essential SwiftUI elements** for interaction and layout:
-
+MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout:
 - `Text`
 - `TextField`
 - `Toggle`
@@ -33,59 +47,30 @@ MealEngine uses **8–9 essential SwiftUI elements** for interaction and layout:
 - `Picker`
 - `Button`
 - `List`
-- `NavigationStack`
+- `NavigationView`
 - `Image`
 
 ---
 
-## Persistent Storage
-
-User data is saved using **Swift's `@AppStorage` and `Codable` with `UserDefaults`**, enabling:
-
-- Saving selected foods
-- Remembering goals and settings
-- Loading past meal plans at launch
-
----
-
-## Optimization Logic
-
-Meal plans are optimized using a **0/1 Knapsack algorithm**, which selects the best combination of foods to meet:
-
-- A calorie target
-- Macronutrient ratios (protein, fat, carbs)
-- User-defined filters (e.g., vegetarian, low-carb)
-
----
-
-## Custom Colors
-
-The app uses a consistent theme with **3 main custom colors** for branding and visual consistency.
-
----
-
 ## Screenshots
-
-![Home Screen](images/screenshot1.png)
-
-## Technologies
-
-- **Language**: Swift 5
-- **UI Framework**: SwiftUI
-- **Xcode**: 15+
-- **Food API**: e.g., [OpenFoodFacts](https://world.openfoodfacts.org/data)
-- **Storage**: `UserDefaults`, `Codable`, `@AppStorage`
-- **Algorithm**: Knapsack for dietary optimization
+![Home Screen](images/homeview.png)
+![Home Screen](images/goalsview.png)
+![Home Screen](images/settingsview.png)
+![Home Screen](images/calendarview.png)
+![Home Screen](images/historyw.png)
+![Home Screen](images/inputvalidation.png)
+![Home Screen](images/TDEEcalculatorview.png)
 
 ---
 
 ## Installation
-
 1. Clone the repository:
-   ```bash 
+   ``bash 
    git clone git@github.com:3takita/CPSC491_MealEngine.git
 2. Open the project in Xcode: open MealEngine.xcodeproj
-3. Run on a simulator or physical iPhone.
+3. Run on a simulator or physical iPhone.``
+
+--
 
 ## Group Members and Contributors
 -  `Stephen Anaba`
@@ -93,5 +78,7 @@ The app uses a consistent theme with **3 main custom colors** for branding and v
 -  `Yixu Chen`
 -  `Andrew Kim`
 
+---
+
 ## License:
-	This project is licensed under the MIT License. See LICENSE file for details.
+This project is licensed under the MIT License. See LICENSE file for details.
