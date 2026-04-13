@@ -54,33 +54,33 @@ MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout
 
 ## Screenshots
 <div align='center'>
-  <img src="docs/images/plannerview.png" height='300' width='180' alt="Landing Page">
-  <p><b>Fig. 1: Screenshot of the landing page</b></p>
+  <img src="docs/images/plannerview.png" height='300' width='110' alt="Landing Page">
+  <p><b>Fig. 1:</b> Screenshot of the landing page</p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/goalsview.png" height='300' width='180' alt="Goals View">
-  <p><b>Fig. 2: Screenshot of the Daily Goals View</b></p>
+  <img src="docs/images/goalsview.png" height='300' width='110' alt="Goals View">
+  <p><b>Fig. 2:</b> Screenshot of the Daily Goals View</p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/settingsview.png" height='300' width='180' alt="Settings View">
-  <p><b>Fig. 3: Screenshot of the Settings View</b></p>
+  <img src="docs/images/settingsview.png" height='300' width='110' alt="Settings View">
+  <p><b>Fig. 3:</b> Screenshot of the Settings View</p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/historyview.png" height='300' width='180' alt="History View">
-  <p><b>Fig. 4: Screenshot of the History View</b></p>
+  <img src="docs/images/historyview.png" height='300' width='110' alt="History View">
+  <p><b>Fig. 4:</b> Screenshot of the History View</p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/mealsaving.png" height='300' width='180' alt="Meal Saving">
-  <p><b>Fig. 5: Confirmation for meal saved</b></p>
+  <img src="docs/images/mealsaving.png" height='300' width='110' alt="Meal Saving">
+  <p><b>Fig. 5:</b> Confirmation for meal saved</p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/TDEECalculator.png" height='300' width='180' alt="TDEE Calculator">
-  <p><b>Fig. 6: This is the landing page</b></p>
+  <img src="docs/images/TDEECalculator.png" height='300' width='110' alt="TDEE Calculator">
+  <p><b>Fig. 6:</b> This is the landing page</p>
 </div>
 
 ---
