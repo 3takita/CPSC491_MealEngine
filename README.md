@@ -54,32 +54,32 @@ MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout
 
 ## Screenshots
 <div align='center'>
-  <img src="docs/images/plannerview.png" alt="Landing Page">
+  <img src="docs/images/plannerview.png" height='50' width='30' alt="Landing Page">
   <p><b>Fig. 1: Screenshot of the landing page</b></p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/goalsview.png" alt="Goals View">
+  <img src="docs/images/goalsview.png" height='50' width='30' alt="Goals View">
   <p><b>Fig. 2: Screenshot of the Daily Goals View</b></p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/settingsview.png" alt="Settings View">
+  <img src="docs/images/settingsview.png" height='50' width='30' alt="Settings View">
   <p><b>Fig. 3: Screenshot of the Settings View</b></p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/historyview.png" alt="History View">
+  <img src="docs/images/historyview.png" height='50' width='30' alt="History View">
   <p><b>Fig. 4: Screenshot of the History View</b></p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/mealsaving.png" alt="Meal Saving">
+  <img src="docs/images/mealsaving.png" height='50' width='30' alt="Meal Saving">
   <p><b>Fig. 5: Confirmation for meal saved</b></p>
 </div>
 
 <div align='center'>
-  <img src="docs/images/TDEECalculator.png" alt="TDEE Calculator">
+  <img src="docs/images/TDEECalculator.png" height='50' width='30' alt="TDEE Calculator">
   <p><b>Fig. 6: This is the landing page</b></p>
 </div>
 
