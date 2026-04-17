@@ -62,10 +62,15 @@ class MealPlannerViewModel: ObservableObject {
     
     // Uses APIClient + APICache to cache identical queries and avoid redundant network calls.
     func fetchFood() {
+        print("BUTTON WORKS") // remove
+        print("query:", query) // remove
+        print("limit:", calorieLimit) // remove
+        
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
         // --- VALIDATION 1: empty food input ----
         if trimmed.isEmpty {
+            print("Validation failed") // remove
             DispatchQueue.main.async {
                 self.inputErrorMessage = "Please enter a food name before searching."
             }
