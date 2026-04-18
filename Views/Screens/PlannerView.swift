@@ -194,6 +194,7 @@ struct PlannerView: View {
                     Text("Search Foods")
                         .bold()
                 }
+                .disabled(vm.isLoading) // Search once
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Theme.primary)

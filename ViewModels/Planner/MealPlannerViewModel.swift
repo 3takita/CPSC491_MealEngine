@@ -11,6 +11,9 @@ class MealPlannerViewModel: ObservableObject {
     private let network: NetworkServiceProtocol
     private let storage: StorageServiceProtocol
     
+    // MARK: - Loading state
+    @Published var isLoading = false // Search once
+    
     // MARK: - User Inputs / state
     @Published var inputErrorMessage: String? // input validation
     @Published var calorieLimit: String = ""
@@ -62,9 +65,9 @@ class MealPlannerViewModel: ObservableObject {
     
     // Uses APIClient + APICache to cache identical queries and avoid redundant network calls.
     func fetchFood() {
-        print("BUTTON WORKS") // remove
-        print("query:", query) // remove
-        print("limit:", calorieLimit) // remove
+        print("fetchFood entered") // remove
+        print("query =", query) // remove
+        print("calorieLimit =", calorieLimit) // remove
         
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
@@ -114,12 +117,15 @@ class MealPlannerViewModel: ObservableObject {
 
         // Build request URL
         let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
-        let urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1"
+        let urlString = "https://us.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=20"
         guard let url = URL(string: urlString) else { return }
 
         // Use Task to bridge the existing sync API to async/await while keeping call sites unchanged.
-        Task { [weak self] in
+        print("Starting network task") // remove
+        Task { [weak self] in // network task
             guard let self = self else { return }
+            print("Inside task") // remove
+            await MainActor.run { self.isLoading = true } // Search once
             do {
                 // NOTE: We use a 5-minute TTL for identical queries to avoid repeated API calls.
                 let data = try await network.get(url: url, ttl: 300)
@@ -136,6 +142,7 @@ class MealPlannerViewModel: ObservableObject {
 
                     return Food(name: name, calories: kcal, protein: protein, fat: fat, carbs: carbs)
                 }
+                print("Data returned") // remove
 
                 await MainActor.run {
                     if let limit = Double(trimmedCalorieLimit), limit > 0 {
@@ -143,10 +150,15 @@ class MealPlannerViewModel: ObservableObject {
                     } else {
                         self.chosenFoods = foods
                     }
+                    self.inputErrorMessage = nil
+                    // self.isLoading = false
                 }
             } catch {
-                // If the network fails and there is no cached data, chosenFoods becomes empty.
-                await MainActor.run { self.chosenFoods = [] }
+                // if network fails and ther is no cached data, choosenFoods becomes empty
+                await MainActor.run {
+                    self.chosenFoods = []
+                    self.inputErrorMessage = "Search timed out. Please try again."
+                }
             }
         }
     } // end of fetchFood()

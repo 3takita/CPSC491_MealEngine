@@ -1,4 +1,4 @@
-// Does instant repeat searches and reopen app later by using disk cache
+// Purpose: Does instant repeat searches and reopen app later by using disk cache
 
 import Foundation
 
@@ -45,7 +45,7 @@ final class APIClient {
         let request = URLRequest(
             url: url,
             cachePolicy: .reloadIgnoringLocalCacheData,
-            timeoutInterval: 15
+            timeoutInterval: 30
         )
 
         let (data, response) = try await URLSession.shared.data(for: request)
