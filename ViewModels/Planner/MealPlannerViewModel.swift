@@ -79,20 +79,19 @@ final class MealPlannerViewModel: ObservableObject {
     }
 
     // MARK: - Fetch Food
-
     func fetchFood() {
 
         inputErrorMessage = nil
 
         let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // Validation 1
+        // MARK: Validation
+
         if trimmed.isEmpty {
             inputErrorMessage = "Please enter a food name before searching."
             return
         }
 
-        // Validation 2
         if Double(trimmed) != nil {
             inputErrorMessage = "Food name cannot be a number."
             return
@@ -101,19 +100,16 @@ final class MealPlannerViewModel: ObservableObject {
         let trimmedCalorieLimit =
             calorieLimit.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // Validation 3
         if trimmedCalorieLimit.isEmpty {
             inputErrorMessage = "Please enter a calorie limit."
             return
         }
 
-        // Validation 4
         if trimmedCalorieLimit.first == "-" {
             inputErrorMessage = "Calorie limit cannot be negative."
             return
         }
 
-        // Validation 5
         guard let limit = Double(trimmedCalorieLimit) else {
             inputErrorMessage = "Calorie limit must be a valid number."
             return
@@ -138,18 +134,11 @@ final class MealPlannerViewModel: ObservableObject {
                 self.isLoading = true
             }
 
-            do {
+            do { // Success Block
                 let data = try await network.get(url: url, ttl: 300)
 
-                print("Downloaded bytes:", data.count)
-
-                if let raw = String(data: data, encoding: .utf8) {
-                    print(raw.prefix(500))
-                }
-
-                let decoded = try JSONDecoder().decode(OpenFoodFactsResponse.self, from: data)
-
-                print("Products returned:", decoded.products.count)
+                let decoded = try JSONDecoder()
+                    .decode(OpenFoodFactsResponse.self, from: data)
 
                 let foods: [Food] = decoded.products.compactMap { product in
                     guard let name = product.product_name,
@@ -157,21 +146,14 @@ final class MealPlannerViewModel: ObservableObject {
                         return nil
                     }
 
-                    let kcal = nutr.energyKcal100g ?? 0
-                    let protein = nutr.proteins100g ?? 0
-                    let fat = nutr.fat100g ?? 0
-                    let carbs = nutr.carbohydrates100g ?? 0
-
                     return Food(
                         name: name,
-                        calories: kcal,
-                        protein: protein,
-                        fat: fat,
-                        carbs: carbs
+                        calories: nutr.energyKcal100g ?? 0,
+                        protein: nutr.proteins100g ?? 0,
+                        fat: nutr.fat100g ?? 0,
+                        carbs: nutr.carbohydrates100g ?? 0
                     )
                 }
-
-                print("Foods mapped:", foods.count)
 
                 let optimizedFoods = self.knapsack(
                     foods: foods,
@@ -179,34 +161,51 @@ final class MealPlannerViewModel: ObservableObject {
                 )
 
                 await MainActor.run {
+
                     self.chosenFoods = optimizedFoods
                     self.isLoading = false
 
-                    if optimizedFoods.isEmpty {
+                    print("Chosen foods:", optimizedFoods.count) // remove
+
+                    if foods.isEmpty {
                         self.inputErrorMessage =
-                        "No foods found for that search."
+                        "No foods found for '\(trimmed)'."
+
+                    } else if optimizedFoods.isEmpty {
+                        self.inputErrorMessage =
+                        "Foods found, but none fit your calorie limit."
                     }
                 }
 
             } catch {
 
                 await MainActor.run {
+
                     self.isLoading = false
                     self.chosenFoods = []
-                    self.inputErrorMessage =
-                    "Food database is unavailable right now. Please try again."
+
+                    if let urlError = error as? URLError,
+                       urlError.code == .timedOut {
+
+                        self.inputErrorMessage =
+                        "The food database took too long to respond."
+
+                    } else {
+                        self.inputErrorMessage =
+                        "Unable to fetch foods right now."
+                    }
                 }
             }
         }
-    }
+    } // end of fetchFood
 
     // MARK: - Knapsack Algorithm
-
     private func knapsack(
         foods: [Food],
         calorieLimit: Double
     ) -> [Food] {
-
+        print("Knapsack input:", foods.count) // remove
+        print("Limit:", calorieLimit) // remove
         guard calorieLimit > 0, !foods.isEmpty else { return [] }
 
         func nutrientValue(_ food: Food) -> Double {
@@ -254,7 +253,7 @@ final class MealPlannerViewModel: ObservableObject {
                 remaining = 0
             }
         }
-
+        print("Knapsack selected:", selected.count)
         return selected
     }
 

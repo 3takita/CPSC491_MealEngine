@@ -27,21 +27,24 @@ final class APIClient {
     // MARK: - Public GET
 
     func get(url: URL, ttl: TimeInterval = 300) async throws -> Data {
-
+        
         let key = cacheKey(for: url)
-
+        
         // 1. Memory Cache
         if let cached = memoryCache.object(forKey: key as NSString) {
+            print("MEMORY CACHE HIT") // remove
             return Data(referencing: cached)
         }
 
         // 2. Disk Cache
         if let diskData = try loadDiskCache(for: key, ttl: ttl) {
+            print("DISK CACHE HIT") // remove
             memoryCache.setObject(diskData as NSData, forKey: key as NSString)
             return diskData
         }
 
         // 3. Network Fetch
+        print("NETWORK FETCH") // remove
         let request = URLRequest(
             url: url,
             cachePolicy: .reloadIgnoringLocalCacheData,

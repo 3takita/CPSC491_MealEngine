@@ -28,11 +28,22 @@ struct PlannerView: View {
             .padding()
         }
         .background(Theme.surface.ignoresSafeArea())
-        .navigationTitle("Meal Engine")
+        .navigationTitle("MealEngine")
         .alert("Meal Saved!", isPresented: $showSaveConfirmation) {
-            Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) { } // meal saved alert
         } message: {
             Text("Your meal has been added to today's log")
+        }
+        .alert( // input error alert
+            "Input Error",
+            isPresented: Binding(
+                get: { vm.inputErrorMessage != nil },
+                set: { _ in vm.inputErrorMessage = nil }
+            )
+        ) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(vm.inputErrorMessage ?? "")
         }
     }
     
