@@ -11,11 +11,9 @@ class MealPlannerViewModel: ObservableObject {
     private let network: NetworkServiceProtocol
     private let storage: StorageServiceProtocol
     
-    // MARK: - Loading state
-    @Published var isLoading = false // Search once
-    
     // MARK: - User Inputs / state
     @Published var inputErrorMessage: String? // input validation
+    @Published var isLoading = false // Search once
     @Published var calorieLimit: String = ""
     @Published var query: String = ""
     @Published var goals = Goals(calories: 2000, protein: 150, fat: 65, carbs: 250)
@@ -117,8 +115,17 @@ class MealPlannerViewModel: ObservableObject {
 
         // Build request URL
         let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
+
+        let usURL = URL(string:
+        "https://us.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=20"
+        )!
+
+        let worldURL = URL(string:
+        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=20"
+        )!
+        /*let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
         let urlString = "https://us.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=20"
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: urlString) else { return }*/
 
         // Use Task to bridge the existing sync API to async/await while keeping call sites unchanged.
         print("Starting network task") // remove
@@ -128,7 +135,15 @@ class MealPlannerViewModel: ObservableObject {
             await MainActor.run { self.isLoading = true } // Search once
             do {
                 // NOTE: We use a 5-minute TTL for identical queries to avoid repeated API calls.
-                let data = try await network.get(url: url, ttl: 300)
+                /*let data = try await network.get(url: url, ttl: 300)*/
+                let data: Data
+
+                do {
+                    data = try await network.get(url: usURL, ttl: 300)
+                } catch {
+                    print("US server failed. Trying world server...")
+                    data = try await network.get(url: worldURL, ttl: 300)
+                }
 
                 let decoded = try JSONDecoder().decode(OpenFoodFactsResponse.self, from: data)
                 let foods: [Food] = decoded.products.compactMap { product in
@@ -150,14 +165,15 @@ class MealPlannerViewModel: ObservableObject {
                     } else {
                         self.chosenFoods = foods
                     }
-                    self.inputErrorMessage = nil
-                    // self.isLoading = false
+                    //self.inputErrorMessage = nil
+                    self.isLoading = false
                 }
             } catch {
                 // if network fails and ther is no cached data, choosenFoods becomes empty
                 await MainActor.run {
                     self.chosenFoods = []
-                    self.inputErrorMessage = "Search timed out. Please try again."
+                    self.inputErrorMessage = "Network timeout. Please try again."
+                    self.isLoading = false
                 }
             }
         }

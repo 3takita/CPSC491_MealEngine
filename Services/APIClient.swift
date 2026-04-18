@@ -45,7 +45,7 @@ final class APIClient {
         let request = URLRequest(
             url: url,
             cachePolicy: .reloadIgnoringLocalCacheData,
-            timeoutInterval: 30
+            timeoutInterval: 6 // faster fail = better UX
         )
 
         let (data, response) = try await URLSession.shared.data(for: request)
@@ -54,6 +54,28 @@ final class APIClient {
               200...299 ~= http.statusCode else {
             throw URLError(.badServerResponse)
         }
+        /*do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+
+            guard let http = response as? HTTPURLResponse,
+                200...299 ~= http.statusCode else {
+                throw URLError(.badServerResponse)
+            }
+
+            memoryCache.setObject(data as NSData, forKey: key as NSString)
+            try saveDiskCache(data: data, for: key)
+
+            return data
+
+        } catch {
+
+            // Fallback to stale disk cache if available
+            if let staleData = try? Data(contentsOf: fileURL(for: key)) {
+                memoryCache.setObject(staleData as NSData, forKey: key as NSString)
+                return staleData
+            }
+            throw error
+        }*/
 
         // Save caches
         memoryCache.setObject(data as NSData, forKey: key as NSString)
