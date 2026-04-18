@@ -45,7 +45,7 @@ final class APIClient {
         let request = URLRequest(
             url: url,
             cachePolicy: .reloadIgnoringLocalCacheData,
-            timeoutInterval: 6 // faster fail = better UX
+            timeoutInterval: 8 // faster fail = better UX
         )
 
         let (data, response) = try await URLSession.shared.data(for: request)
