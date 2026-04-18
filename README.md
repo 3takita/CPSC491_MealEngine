@@ -87,10 +87,10 @@ MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout
 
 ## Installation
 1. Clone the repository:
-   ``bash 
+   `bash 
    git clone git@github.com:3takita/CPSC491_MealEngine.git
 2. Open the project in Xcode: open MealEngine.xcodeproj
-3. Run on a simulator or physical iPhone.``
+3. Run on a simulator or physical iPhone.`
 
 --
 
