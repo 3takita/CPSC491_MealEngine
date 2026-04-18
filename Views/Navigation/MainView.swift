@@ -18,7 +18,7 @@ struct MainView: View {
             .tag(0)
 
             NavigationStack {
-                HistoryView(vm: appState.historyVM)
+                HistoryView(vm: appState.plannerVM)
             }
             .tabItem {
                 Label("History", systemImage: "calendar")
@@ -31,10 +31,14 @@ struct MainView: View {
             .tabItem {
                 Label("Goals", systemImage: "target")
             }
+            // keep goals in sync when viewing Goals tab
+            .onAppear {
+                appState.goalsVM.sync(from: appState.plannerVM)
+            }
             .tag(2)
 
             NavigationStack {
-                SettingsView()
+                SettingsView(vm: appState.plannerVM)
             }
             .tabItem {
                 Label("Settings", systemImage: "gearshape")
@@ -47,3 +51,4 @@ struct MainView: View {
         }
     }
 }
+
