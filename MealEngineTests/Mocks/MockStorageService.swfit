@@ -1,0 +1,19 @@
+import Foundation
+@testable import MealEngine
+
+final class MockStorageService: StorageServiceProtocol {
+
+    var store: [String: Any] = [:]
+
+    func set(_ value: Any?, forKey key: String) {
+        store[key] = value
+    }
+
+    func data(forKey key: String) -> Data? {
+        store[key] as? Data
+    }
+
+    func dictionary(forKey key: String) -> [String : Any]? {
+        store[key] as? [String : Any]
+    }
+}

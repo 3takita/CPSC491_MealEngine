@@ -1,10 +1,10 @@
-/* import SwiftUI
+//
+//  AppState 2.swift
+//  MealEngine
+//
+//  Created by Guest User on 4/17/26.
+//
 
-final class AppState: ObservableObject {
-    @Published var plannerVM = MealPlannerViewModel()
-    @Published var goalsVM = GoalsViewModel()
-    @Published var historyVM = HistoryViewModel()
-} */
 
 import SwiftUI
 

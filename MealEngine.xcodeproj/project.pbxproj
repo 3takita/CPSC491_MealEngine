@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		319E40722F8C830400F01504 /* zh.json in Resources */ = {isa = PBXBuildFile; fileRef = 319E405A2F8C830400F01504 /* zh.json */; };
+		3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE492F9270DE00DF0229 /* MealEngineApp.swift */; };
+		3146CE4B2F92881800DF0229 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE482F926F5200DF0229 /* StorageService.swift */; };
+		3146CE4D2F92953D00DF0229 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE4C2F92953D00DF0229 /* APIClient.swift */; };
+		319D11AD2F91CFB300335AB3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319D11AA2F91CFB300335AB3 /* NetworkService.swift */; };
 		319E40732F8C830400F01504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 319E40582F8C830400F01504 /* Assets.xcassets */; };
-		319E40742F8C830400F01504 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 319E40592F8C830400F01504 /* en.json */; };
 		319E40752F8C830400F01504 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406C2F8C830400F01504 /* DayDetailView.swift */; };
 		319E40762F8C830400F01504 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406D2F8C830400F01504 /* HistoryView.swift */; };
-		319E40772F8C830400F01504 /* MealEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E404C2F8C830400F01504 /* MealEngine.swift */; };
 		319E40782F8C830400F01504 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40522F8C830400F01504 /* Goals.swift */; };
 		319E40792F8C830400F01504 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E405C2F8C830400F01504 /* CalendarViewModel.swift */; };
 		319E407A2F8C830400F01504 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40512F8C830400F01504 /* Food.swift */; };
@@ -34,8 +35,6 @@
 		319E408D2F8C838900F01504 /* MealEngineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408A2F8C838900F01504 /* MealEngineUITests.swift */; };
 		319E408E2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408B2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift */; };
 		319E40902F8C9B5500F01504 /* TDEECalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */; };
-		319E40922F8C9E8200F01504 /* LanguagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40912F8C9E8200F01504 /* LanguagePickerView.swift */; };
-		319E40942F8C9E8600F01504 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40932F8C9E8600F01504 /* LanguageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +55,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		319E404C2F8C830400F01504 /* MealEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngine.swift; sourceTree = "<group>"; };
+		3146CE482F926F5200DF0229 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		3146CE492F9270DE00DF0229 /* MealEngineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineApp.swift; sourceTree = "<group>"; };
+		3146CE4C2F92953D00DF0229 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		319D11AA2F91CFB300335AB3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		319E404D2F8C830400F01504 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		319E404F2F8C830400F01504 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		319E40512F8C830400F01504 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
@@ -66,8 +68,6 @@
 		319E40552F8C830400F01504 /* OpenFoodFacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFoodFacts.swift; sourceTree = "<group>"; };
 		319E40562F8C830400F01504 /* TrackedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedDay.swift; sourceTree = "<group>"; };
 		319E40582F8C830400F01504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		319E40592F8C830400F01504 /* en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
-		319E405A2F8C830400F01504 /* zh.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = zh.json; sourceTree = "<group>"; };
 		319E405C2F8C830400F01504 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		319E405E2F8C830400F01504 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
 		319E40602F8C830400F01504 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
@@ -83,8 +83,6 @@
 		319E408A2F8C838900F01504 /* MealEngineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineUITests.swift; sourceTree = "<group>"; };
 		319E408B2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDEECalculatorView.swift; sourceTree = "<group>"; };
-		319E40912F8C9E8200F01504 /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
-		319E40932F8C9E8600F01504 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		D508F8582E77468B00DE5B95 /* MealEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MealEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D508F8652E77468D00DE5B95 /* MealEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D508F86F2E77468D00DE5B95 /* MealEngineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealEngineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -123,11 +121,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		319D11AC2F91CFB300335AB3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3146CE4C2F92953D00DF0229 /* APIClient.swift */,
+				319D11AA2F91CFB300335AB3 /* NetworkService.swift */,
+				3146CE482F926F5200DF0229 /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		319E404E2F8C830400F01504 /* MealEngine */ = {
 			isa = PBXGroup;
 			children = (
-				319E404C2F8C830400F01504 /* MealEngine.swift */,
 				319E404D2F8C830400F01504 /* Theme.swift */,
+				3146CE492F9270DE00DF0229 /* MealEngineApp.swift */,
 			);
 			path = MealEngine;
 			sourceTree = "<group>";
@@ -158,8 +166,6 @@
 			isa = PBXGroup;
 			children = (
 				319E40582F8C830400F01504 /* Assets.xcassets */,
-				319E40592F8C830400F01504 /* en.json */,
-				319E405A2F8C830400F01504 /* zh.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -228,8 +234,6 @@
 			children = (
 				319E40692F8C830400F01504 /* MainView.swift */,
 				319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */,
-				319E40912F8C9E8200F01504 /* LanguagePickerView.swift */,
-				319E40932F8C9E8600F01504 /* LanguageManager.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -269,6 +273,7 @@
 		D508F84F2E77468B00DE5B95 = {
 			isa = PBXGroup;
 			children = (
+				319D11AC2F91CFB300335AB3 /* Services */,
 				319E408C2F8C838900F01504 /* MealEngineUITests */,
 				319E40502F8C830400F01504 /* App */,
 				319E40572F8C830400F01504 /* Models */,
@@ -404,9 +409,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				319E40722F8C830400F01504 /* zh.json in Resources */,
 				319E40732F8C830400F01504 /* Assets.xcassets in Resources */,
-				319E40742F8C830400F01504 /* en.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,20 +436,22 @@
 			files = (
 				319E40752F8C830400F01504 /* DayDetailView.swift in Sources */,
 				319E40762F8C830400F01504 /* HistoryView.swift in Sources */,
-				319E40772F8C830400F01504 /* MealEngine.swift in Sources */,
+				319D11AD2F91CFB300335AB3 /* NetworkService.swift in Sources */,
+				3146CE4D2F92953D00DF0229 /* APIClient.swift in Sources */,
 				319E40782F8C830400F01504 /* Goals.swift in Sources */,
 				319E40902F8C9B5500F01504 /* TDEECalculatorView.swift in Sources */,
 				319E40792F8C830400F01504 /* CalendarViewModel.swift in Sources */,
 				319E407A2F8C830400F01504 /* Food.swift in Sources */,
 				319E407B2F8C830400F01504 /* PlannerView.swift in Sources */,
 				319E407C2F8C830400F01504 /* GoalsViewModel.swift in Sources */,
+				3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */,
 				319E407D2F8C830400F01504 /* TrackedDay.swift in Sources */,
 				319E407E2F8C830400F01504 /* MealPlannerViewModel.swift in Sources */,
 				319E407F2F8C830400F01504 /* Meal.swift in Sources */,
+				3146CE4B2F92881800DF0229 /* StorageService.swift in Sources */,
 				319E40802F8C830400F01504 /* AppState.swift in Sources */,
 				319E40812F8C830400F01504 /* SettingsView.swift in Sources */,
 				319E40822F8C830400F01504 /* MacroDonut.swift in Sources */,
-				319E40942F8C9E8600F01504 /* LanguageManager.swift in Sources */,
 				319E40832F8C830400F01504 /* GoalCalendarDayCellView.swift in Sources */,
 				319E40842F8C830400F01504 /* MainView.swift in Sources */,
 				319E40852F8C830400F01504 /* DailyGoalsView.swift in Sources */,
@@ -454,7 +459,6 @@
 				319E40872F8C830400F01504 /* Theme.swift in Sources */,
 				319E40882F8C830400F01504 /* MealItem.swift in Sources */,
 				319E40892F8C830400F01504 /* OpenFoodFacts.swift in Sources */,
-				319E40922F8C9E8200F01504 /* LanguagePickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,8 +4,13 @@
 
 import Foundation
 import Combine
+import SwiftUI // for MainActor.run and comments
 
 class MealPlannerViewModel: ObservableObject {
+    // MARK: - Services
+    private let network: NetworkServiceProtocol
+    private let storage: StorageServiceProtocol
+    
     // MARK: - User Inputs / state
     @Published var inputErrorMessage: String? // input validation
     @Published var calorieLimit: String = ""
@@ -39,8 +44,14 @@ class MealPlannerViewModel: ObservableObject {
     private let trackedDaysKey = "TrackedDays"
     private let dailyMealsKey = "DailyMeals"
     
-    // MARK: - Init
-    init() {
+    // MARK: - Init - constructor
+    init(
+        network: NetworkServiceProtocol = NetworkService(),
+        storage: StorageServiceProtocol = StorageService()
+    ) {
+        self.network = network
+        self.storage = storage
+
         loadHistory()
         loadPreferences()
         loadGoals()
@@ -49,92 +60,91 @@ class MealPlannerViewModel: ObservableObject {
         updateTodayProgress()
     }
     
-    // MARK: - Fetch food from Open Food Facts API
+    // Uses APIClient + APICache to cache identical queries and avoid redundant network calls.
     func fetchFood() {
-    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
 
-    // --- VALIDATION 1: empty food input ----
-    if trimmed.isEmpty {
-        DispatchQueue.main.async {
-            self.inputErrorMessage = "Please enter a food name before searching."
-        }
-        return
-    }
-
-    // --- VALIDATION 2: food name must NOT be a number ----
-    if Double(trimmed) != nil {
-        DispatchQueue.main.async {
-            self.inputErrorMessage = "Food name cannot be a number."
-        }
-        return
-    }
-
-    // Handle calorieLimit validations
-    let trimmedCalorieLimit = calorieLimit.trimmingCharacters(in: .whitespacesAndNewlines)
-
-    // --- VALIDATION 3: calorieLimit empty (no entry) ---
-    if trimmedCalorieLimit.isEmpty {
-        DispatchQueue.main.async {
-            self.inputErrorMessage = "Please enter a calorie limit."
-        }
-        return
-    }
-
-    // --- VALIDATION 4: calorieLimit negative ---
-    if trimmedCalorieLimit.first == "-" {
-        DispatchQueue.main.async {
-            self.inputErrorMessage = "Calorie limit cannot be negative."
-        }
-        return
-    }
-
-    // --- VALIDATION 5: calorieLimit must be numeric ---
-    if Double(trimmedCalorieLimit) == nil {
-        DispatchQueue.main.async {
-            self.inputErrorMessage = "Calorie limit must be a valid number."
-        }
-        return
-    }
-
-    // Continue with actual API fetch...
-    let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
-    let urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1"
-    guard let url = URL(string: urlString) else { return }
-
-    URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-        guard let self = self else { return }
-        guard error == nil, let data = data else {
-            DispatchQueue.main.async { self.chosenFoods = [] }
+        // --- VALIDATION 1: empty food input ----
+        if trimmed.isEmpty {
+            DispatchQueue.main.async {
+                self.inputErrorMessage = "Please enter a food name before searching."
+            }
             return
         }
 
-        do {
-            let decoded = try JSONDecoder().decode(OpenFoodFactsResponse.self, from: data)
-
-            let foods: [Food] = decoded.products.compactMap { product in
-                guard let name = product.product_name,
-                      let nutr = product.nutriments else { return nil }
-
-                let kcal   = nutr.energyKcal100g ?? 0
-                let protein = nutr.proteins100g ?? 0
-                let fat     = nutr.fat100g ?? 0
-                let carbs   = nutr.carbohydrates100g ?? 0
-
-                return Food(name: name, calories: kcal, protein: protein, fat: fat, carbs: carbs)
-            }
-
+        // --- VALIDATION 2: food name must NOT be a number ----
+        if Double(trimmed) != nil {
             DispatchQueue.main.async {
-                if let limit = Double(trimmedCalorieLimit), limit > 0 {
-                    self.chosenFoods = self.knapsack(foods: foods, calorieLimit: limit)
-                } else {
-                    self.chosenFoods = foods
-                }
+                self.inputErrorMessage = "Food name cannot be a number."
             }
-        } catch {
-            DispatchQueue.main.async { self.chosenFoods = [] }
+            return
         }
-    }.resume()
-} // end of fetchFood()
+
+        // Handle calorieLimit validations
+        let trimmedCalorieLimit = calorieLimit.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // --- VALIDATION 3: calorieLimit empty (no entry) ---
+        if trimmedCalorieLimit.isEmpty {
+            DispatchQueue.main.async {
+                self.inputErrorMessage = "Please enter a calorie limit."
+            }
+            return
+        }
+
+        // --- VALIDATION 4: calorieLimit negative ---
+        if trimmedCalorieLimit.first == "-" {
+            DispatchQueue.main.async {
+                self.inputErrorMessage = "Calorie limit cannot be negative."
+            }
+            return
+        }
+
+        // --- VALIDATION 5: calorieLimit must be numeric ---
+        if Double(trimmedCalorieLimit) == nil {
+            DispatchQueue.main.async {
+                self.inputErrorMessage = "Calorie limit must be a valid number."
+            }
+            return
+        }
+
+        // Build request URL
+        let encodedQuery = trimmed.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? trimmed
+        let urlString = "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1"
+        guard let url = URL(string: urlString) else { return }
+
+        // Use Task to bridge the existing sync API to async/await while keeping call sites unchanged.
+        Task { [weak self] in
+            guard let self = self else { return }
+            do {
+                // NOTE: We use a 5-minute TTL for identical queries to avoid repeated API calls.
+                let data = try await network.get(url: url, ttl: 300)
+
+                let decoded = try JSONDecoder().decode(OpenFoodFactsResponse.self, from: data)
+                let foods: [Food] = decoded.products.compactMap { product in
+                    guard let name = product.product_name,
+                          let nutr = product.nutriments else { return nil }
+
+                    let kcal    = nutr.energyKcal100g ?? 0
+                    let protein = nutr.proteins100g ?? 0
+                    let fat     = nutr.fat100g ?? 0
+                    let carbs   = nutr.carbohydrates100g ?? 0
+
+                    return Food(name: name, calories: kcal, protein: protein, fat: fat, carbs: carbs)
+                }
+
+                await MainActor.run {
+                    if let limit = Double(trimmedCalorieLimit), limit > 0 {
+                        self.chosenFoods = self.knapsack(foods: foods, calorieLimit: limit)
+                    } else {
+                        self.chosenFoods = foods
+                    }
+                }
+            } catch {
+                // If the network fails and there is no cached data, chosenFoods becomes empty.
+                await MainActor.run { self.chosenFoods = [] }
+            }
+        }
+    } // end of fetchFood()
 
 
     // MARK: - Knapsack Algorithm
@@ -307,14 +317,14 @@ class MealPlannerViewModel: ObservableObject {
     func saveGoals() {
         do {
             let data = try JSONEncoder().encode(goals)
-            UserDefaults.standard.set(data, forKey: goalsKey)
+            storage.set(data, forKey: goalsKey)
         } catch {
             print("Failed to save goals: \(error)")
         }
     }
     
     private func loadGoals() {
-        guard let data = UserDefaults.standard.data(forKey: goalsKey) else { return }
+        guard let data = storage.data(forKey: goalsKey) else { return }
         if let decoded = try? JSONDecoder().decode(Goals.self, from: data) {
             goals = decoded
         }
@@ -327,11 +337,11 @@ class MealPlannerViewModel: ObservableObject {
             "fat": trackFat,
             "carbs": trackCarbs
         ]
-        UserDefaults.standard.set(prefs, forKey: prefsKey)
+        storage.set(prefs, forKey: prefsKey)
     }
     
     private func loadPreferences() {
-        guard let prefs = UserDefaults.standard.dictionary(forKey: prefsKey) as? [String: Bool] else { return }
+        guard let prefs = storage.dictionary(forKey: prefsKey) as? [String: Bool] else { return }
         trackCalories = prefs["calories"] ?? true
         trackProtein  = prefs["protein"]  ?? true
         trackFat      = prefs["fat"]      ?? false
@@ -341,14 +351,14 @@ class MealPlannerViewModel: ObservableObject {
     private func persistHistory() {
         do {
             let data = try JSONEncoder().encode(mealHistory)
-            UserDefaults.standard.set(data, forKey: historyKey)
+            storage.set(data, forKey: historyKey)
         } catch {
             print("Failed to save history: \(error)")
         }
     }
     
     private func loadHistory() {
-        guard let data = UserDefaults.standard.data(forKey: historyKey) else { return }
+        guard let data = storage.data(forKey: historyKey) else { return }
         if let decoded = try? JSONDecoder().decode([[Food]].self, from: data) {
             mealHistory = decoded
         }
@@ -357,14 +367,14 @@ class MealPlannerViewModel: ObservableObject {
     private func persistTrackedDays() {
         do {
             let data = try JSONEncoder().encode(trackedDays)
-            UserDefaults.standard.set(data, forKey: trackedDaysKey)
+            storage.set(data, forKey: trackedDaysKey)
         } catch {
             print("Failed to save tracked days: \(error)")
         }
     }
     
     private func loadTrackedDays() {
-        guard let data = UserDefaults.standard.data(forKey: trackedDaysKey) else { return }
+        guard let data = storage.data(forKey: trackedDaysKey) else { return }
         if let decoded = try? JSONDecoder().decode([TrackedDay].self, from: data) {
             trackedDays = decoded
         }
@@ -373,14 +383,14 @@ class MealPlannerViewModel: ObservableObject {
     private func persistDailyMeals() {
         do {
             let data = try JSONEncoder().encode(dailyMeals)
-            UserDefaults.standard.set(data, forKey: dailyMealsKey)
+            storage.set(data, forKey: dailyMealsKey)
         } catch {
             print("Failed to save daily meals: \(error)")
         }
     }
     
     private func loadDailyMeals() {
-        guard let data = UserDefaults.standard.data(forKey: dailyMealsKey) else { return }
+        guard let data = storage.data(forKey: dailyMealsKey) else { return }
         if let decoded = try? JSONDecoder().decode([String: [Meal]].self, from: data) {
             dailyMeals = decoded
         }
@@ -394,3 +404,4 @@ class MealPlannerViewModel: ObservableObject {
         return formatter.string(from: date)
     }
 }
+
