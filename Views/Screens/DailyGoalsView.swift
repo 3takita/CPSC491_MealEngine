@@ -8,7 +8,8 @@ import UIKit
 
 // MARK: - Daily Goals screen
 struct DailyGoalsView: View {
-    @ObservedObject var vm: MealPlannerViewModel
+    // @ObservedObject var vm: MealPlannerViewModel
+    @ObservedObject var vm: GoalsViewModel
 
     // Pop share options
     @State private var isShowingShareOptions = false

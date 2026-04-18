@@ -261,7 +261,7 @@ private struct MonthStats {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         HistoryView(vm: MealPlannerViewModel())
             .preferredColorScheme(.light)
     }

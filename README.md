@@ -33,7 +33,7 @@ MealEngine uses **8–9 essential SwiftUI elements** for interaction and layout:
 - `Picker`
 - `Button`
 - `List`
-- `NavigationView`
+- `NavigationStack`
 - `Image`
 
 ---

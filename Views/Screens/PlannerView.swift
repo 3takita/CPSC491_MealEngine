@@ -359,7 +359,7 @@ struct PlannerView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         PlannerView(vm: MealPlannerViewModel())
             .preferredColorScheme(.light)
     }
