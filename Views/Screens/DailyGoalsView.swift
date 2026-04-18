@@ -8,7 +8,8 @@ import UIKit
 
 // MARK: - Daily Goals screen
 struct DailyGoalsView: View {
-    @ObservedObject var vm: MealPlannerViewModel
+    // @ObservedObject var vm: MealPlannerViewModel
+    @ObservedObject var vm: GoalsViewModel
 
     // Pop share options
     @State private var isShowingShareOptions = false
@@ -442,6 +443,18 @@ func doubleToInt(dub: Double) -> Int{
 }
 
 #Preview {
-    DailyGoalsView(vm: MealPlannerViewModel())
+    // Provide a simple GoalsViewModel for preview purposes
+    let goalsVM = GoalsViewModel()
+    // Optionally seed some sample data so the preview looks populated
+    goalsVM.goals.calories = 2200
+    goalsVM.goals.protein = 150
+    goalsVM.goals.fat = 70
+    goalsVM.goals.carbs = 250
+    goalsVM.currentCalories = 1350
+    goalsVM.currentProtein = 80
+    goalsVM.currentFat = 40
+    goalsVM.currentCarbs = 120
+
+    return DailyGoalsView(vm: goalsVM)
 }
 

@@ -28,11 +28,22 @@ struct PlannerView: View {
             .padding()
         }
         .background(Theme.surface.ignoresSafeArea())
-        .navigationTitle("Meal Engine")
+        .navigationTitle("MealEngine")
         .alert("Meal Saved!", isPresented: $showSaveConfirmation) {
-            Button("OK", role: .cancel) { }
+            Button("OK", role: .cancel) { } // meal saved alert
         } message: {
             Text("Your meal has been added to today's log")
+        }
+        .alert( // input error alert
+            "Input Error",
+            isPresented: Binding(
+                get: { vm.inputErrorMessage != nil },
+                set: { _ in vm.inputErrorMessage = nil }
+            )
+        ) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(vm.inputErrorMessage ?? "")
         }
     }
     
@@ -139,8 +150,7 @@ struct PlannerView: View {
     }
     
     // MARK: - Search Section
-    
-    private var searchSection: some View {
+    private var searchSection: some View { // spinner version
         VStack(spacing: 12) {
             Text("Plan Your Meal")
                 .font(.headline)
@@ -185,22 +195,35 @@ struct PlannerView: View {
     }
     
     // MARK: - Action Buttons
-    
     private var actionButtons: some View {
         HStack(spacing: 12) {
-            Button(action: { vm.fetchFood() }) {
+
+            // SEARCH BUTTON
+            Button(action: {
+                vm.fetchFood()
+            }) {
+
                 HStack {
-                    Image(systemName: "arrow.down.circle.fill")
-                    Text("Search Foods")
+
+                    if vm.isLoading {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Image(systemName: "arrow.down.circle.fill")
+                    }
+
+                    Text(vm.isLoading ? "Searching..." : "Search Foods")
                         .bold()
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Theme.primary)
+                .background(vm.isLoading ? Color.gray : Theme.primary)
                 .foregroundColor(.white)
                 .cornerRadius(12)
             }
-            
+            .disabled(vm.isLoading)
+
+            // SAVE BUTTON
             Button(action: {
                 vm.saveMeal()
                 showSaveConfirmation = true
@@ -212,7 +235,11 @@ struct PlannerView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(vm.chosenFoods.isEmpty ? Theme.textSecondary.opacity(0.3) : Theme.success)
+                .background(
+                    vm.chosenFoods.isEmpty
+                    ? Theme.textSecondary.opacity(0.3)
+                    : Theme.success
+                ) // 19495021300
                 .foregroundColor(.white)
                 .cornerRadius(12)
             }
@@ -221,7 +248,6 @@ struct PlannerView: View {
     }
     
     // MARK: - Results Section
-    
     private var resultsSection: some View {
         VStack(spacing: 12) {
             HStack {
@@ -359,7 +385,7 @@ struct PlannerView: View {
 }
 
 #Preview {
-    NavigationView {
+    NavigationStack {
         PlannerView(vm: MealPlannerViewModel())
             .preferredColorScheme(.light)
     }

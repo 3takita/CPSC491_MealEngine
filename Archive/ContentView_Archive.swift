@@ -12,7 +12,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Planner Tab
-            NavigationView {
+            NavigationStack {
                 PlannerView(vm: vm)
             }
             .tabItem {
@@ -21,7 +21,7 @@ struct ContentView: View {
             .tag(0)
             
             // History Tab
-            NavigationView {
+            NavigationStack {
                 HistoryView(vm: vm)
             }
             .tabItem {
@@ -30,7 +30,7 @@ struct ContentView: View {
             .tag(1)
             
             // Goals Tab
-            NavigationView {
+            NavigationStack {
                 DailyGoalsView(vm: vm)
             }
             .tabItem {
@@ -39,7 +39,7 @@ struct ContentView: View {
             .tag(2)
             
             // Settings Tab
-            NavigationView {
+            NavigationStack {
                 SettingsView(vm: vm)
             }
             .tabItem {

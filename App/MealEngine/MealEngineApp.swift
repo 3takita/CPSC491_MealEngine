@@ -7,10 +7,13 @@ the primary interface to the user
 import SwiftUI
 
 @main
-struct MealEngine: App {
+struct MealEngineApp: App {
+    @StateObject private var appState = AppState()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
+                .environmentObject(appState)
         }
     }
 }

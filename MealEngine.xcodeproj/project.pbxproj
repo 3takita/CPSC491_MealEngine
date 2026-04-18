@@ -6,6 +6,37 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE492F9270DE00DF0229 /* MealEngineApp.swift */; };
+		3146CE4B2F92881800DF0229 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE482F926F5200DF0229 /* StorageService.swift */; };
+		3146CE4D2F92953D00DF0229 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE4C2F92953D00DF0229 /* APIClient.swift */; };
+		319D11AD2F91CFB300335AB3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319D11AA2F91CFB300335AB3 /* NetworkService.swift */; };
+		319E40732F8C830400F01504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 319E40582F8C830400F01504 /* Assets.xcassets */; };
+		319E40752F8C830400F01504 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406C2F8C830400F01504 /* DayDetailView.swift */; };
+		319E40762F8C830400F01504 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406D2F8C830400F01504 /* HistoryView.swift */; };
+		319E40782F8C830400F01504 /* Goals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40522F8C830400F01504 /* Goals.swift */; };
+		319E40792F8C830400F01504 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E405C2F8C830400F01504 /* CalendarViewModel.swift */; };
+		319E407A2F8C830400F01504 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40512F8C830400F01504 /* Food.swift */; };
+		319E407B2F8C830400F01504 /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406E2F8C830400F01504 /* PlannerView.swift */; };
+		319E407C2F8C830400F01504 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E405E2F8C830400F01504 /* GoalsViewModel.swift */; };
+		319E407D2F8C830400F01504 /* TrackedDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40562F8C830400F01504 /* TrackedDay.swift */; };
+		319E407E2F8C830400F01504 /* MealPlannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40622F8C830400F01504 /* MealPlannerViewModel.swift */; };
+		319E407F2F8C830400F01504 /* Meal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40532F8C830400F01504 /* Meal.swift */; };
+		319E40802F8C830400F01504 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E404F2F8C830400F01504 /* AppState.swift */; };
+		319E40812F8C830400F01504 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406F2F8C830400F01504 /* SettingsView.swift */; };
+		319E40822F8C830400F01504 /* MacroDonut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40672F8C830400F01504 /* MacroDonut.swift */; };
+		319E40832F8C830400F01504 /* GoalCalendarDayCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40652F8C830400F01504 /* GoalCalendarDayCellView.swift */; };
+		319E40842F8C830400F01504 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40692F8C830400F01504 /* MainView.swift */; };
+		319E40852F8C830400F01504 /* DailyGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406B2F8C830400F01504 /* DailyGoalsView.swift */; };
+		319E40862F8C830400F01504 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40602F8C830400F01504 /* HistoryViewModel.swift */; };
+		319E40872F8C830400F01504 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E404D2F8C830400F01504 /* Theme.swift */; };
+		319E40882F8C830400F01504 /* MealItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40542F8C830400F01504 /* MealItem.swift */; };
+		319E40892F8C830400F01504 /* OpenFoodFacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E40552F8C830400F01504 /* OpenFoodFacts.swift */; };
+		319E408D2F8C838900F01504 /* MealEngineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408A2F8C838900F01504 /* MealEngineUITests.swift */; };
+		319E408E2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408B2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift */; };
+		319E40902F8C9B5500F01504 /* TDEECalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D508F8662E77468D00DE5B95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,17 +55,40 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3146CE482F926F5200DF0229 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		3146CE492F9270DE00DF0229 /* MealEngineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineApp.swift; sourceTree = "<group>"; };
+		3146CE4C2F92953D00DF0229 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		319D11AA2F91CFB300335AB3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		319E404D2F8C830400F01504 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		319E404F2F8C830400F01504 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		319E40512F8C830400F01504 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		319E40522F8C830400F01504 /* Goals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goals.swift; sourceTree = "<group>"; };
+		319E40532F8C830400F01504 /* Meal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meal.swift; sourceTree = "<group>"; };
+		319E40542F8C830400F01504 /* MealItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealItem.swift; sourceTree = "<group>"; };
+		319E40552F8C830400F01504 /* OpenFoodFacts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFoodFacts.swift; sourceTree = "<group>"; };
+		319E40562F8C830400F01504 /* TrackedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedDay.swift; sourceTree = "<group>"; };
+		319E40582F8C830400F01504 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		319E405C2F8C830400F01504 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+		319E405E2F8C830400F01504 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
+		319E40602F8C830400F01504 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		319E40622F8C830400F01504 /* MealPlannerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlannerViewModel.swift; sourceTree = "<group>"; };
+		319E40652F8C830400F01504 /* GoalCalendarDayCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCalendarDayCellView.swift; sourceTree = "<group>"; };
+		319E40672F8C830400F01504 /* MacroDonut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacroDonut.swift; sourceTree = "<group>"; };
+		319E40692F8C830400F01504 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		319E406B2F8C830400F01504 /* DailyGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyGoalsView.swift; sourceTree = "<group>"; };
+		319E406C2F8C830400F01504 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+		319E406D2F8C830400F01504 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		319E406E2F8C830400F01504 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
+		319E406F2F8C830400F01504 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		319E408A2F8C838900F01504 /* MealEngineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineUITests.swift; sourceTree = "<group>"; };
+		319E408B2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDEECalculatorView.swift; sourceTree = "<group>"; };
 		D508F8582E77468B00DE5B95 /* MealEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MealEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D508F8652E77468D00DE5B95 /* MealEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D508F86F2E77468D00DE5B95 /* MealEngineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MealEngineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D508F85A2E77468B00DE5B95 /* MealEngine */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MealEngine;
-			sourceTree = "<group>";
-		};
 		D508F8682E77468D00DE5B95 /* MealEngineTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MealEngineTests;
@@ -67,10 +121,165 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		319D11AC2F91CFB300335AB3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3146CE4C2F92953D00DF0229 /* APIClient.swift */,
+				319D11AA2F91CFB300335AB3 /* NetworkService.swift */,
+				3146CE482F926F5200DF0229 /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		319E404E2F8C830400F01504 /* MealEngine */ = {
+			isa = PBXGroup;
+			children = (
+				319E404D2F8C830400F01504 /* Theme.swift */,
+				3146CE492F9270DE00DF0229 /* MealEngineApp.swift */,
+			);
+			path = MealEngine;
+			sourceTree = "<group>";
+		};
+		319E40502F8C830400F01504 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				319E404E2F8C830400F01504 /* MealEngine */,
+				319E404F2F8C830400F01504 /* AppState.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		319E40572F8C830400F01504 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				319E40512F8C830400F01504 /* Food.swift */,
+				319E40522F8C830400F01504 /* Goals.swift */,
+				319E40532F8C830400F01504 /* Meal.swift */,
+				319E40542F8C830400F01504 /* MealItem.swift */,
+				319E40552F8C830400F01504 /* OpenFoodFacts.swift */,
+				319E40562F8C830400F01504 /* TrackedDay.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		319E405B2F8C830400F01504 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				319E40582F8C830400F01504 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		319E405D2F8C830400F01504 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				319E405C2F8C830400F01504 /* CalendarViewModel.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		319E405F2F8C830400F01504 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				319E405E2F8C830400F01504 /* GoalsViewModel.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		319E40612F8C830400F01504 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				319E40602F8C830400F01504 /* HistoryViewModel.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		319E40632F8C830400F01504 /* Planner */ = {
+			isa = PBXGroup;
+			children = (
+				319E40622F8C830400F01504 /* MealPlannerViewModel.swift */,
+			);
+			path = Planner;
+			sourceTree = "<group>";
+		};
+		319E40642F8C830400F01504 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				319E405D2F8C830400F01504 /* Calendar */,
+				319E405F2F8C830400F01504 /* Goals */,
+				319E40612F8C830400F01504 /* History */,
+				319E40632F8C830400F01504 /* Planner */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		319E40662F8C830400F01504 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				319E40652F8C830400F01504 /* GoalCalendarDayCellView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		319E40682F8C830400F01504 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				319E40672F8C830400F01504 /* MacroDonut.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		319E406A2F8C830400F01504 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				319E40692F8C830400F01504 /* MainView.swift */,
+				319E408F2F8C9B5500F01504 /* TDEECalculatorView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		319E40702F8C830400F01504 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				319E406B2F8C830400F01504 /* DailyGoalsView.swift */,
+				319E406C2F8C830400F01504 /* DayDetailView.swift */,
+				319E406D2F8C830400F01504 /* HistoryView.swift */,
+				319E406E2F8C830400F01504 /* PlannerView.swift */,
+				319E406F2F8C830400F01504 /* SettingsView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		319E40712F8C830400F01504 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				319E40662F8C830400F01504 /* Cells */,
+				319E40682F8C830400F01504 /* Components */,
+				319E406A2F8C830400F01504 /* Navigation */,
+				319E40702F8C830400F01504 /* Screens */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		319E408C2F8C838900F01504 /* MealEngineUITests */ = {
+			isa = PBXGroup;
+			children = (
+				319E408A2F8C838900F01504 /* MealEngineUITests.swift */,
+				319E408B2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift */,
+			);
+			path = MealEngineUITests;
+			sourceTree = "<group>";
+		};
 		D508F84F2E77468B00DE5B95 = {
 			isa = PBXGroup;
 			children = (
-				D508F85A2E77468B00DE5B95 /* MealEngine */,
+				319D11AC2F91CFB300335AB3 /* Services */,
+				319E408C2F8C838900F01504 /* MealEngineUITests */,
+				319E40502F8C830400F01504 /* App */,
+				319E40572F8C830400F01504 /* Models */,
+				319E405B2F8C830400F01504 /* Resources */,
+				319E40642F8C830400F01504 /* ViewModels */,
+				319E40712F8C830400F01504 /* Views */,
 				D508F8682E77468D00DE5B95 /* MealEngineTests */,
 				D508F8592E77468B00DE5B95 /* Products */,
 			);
@@ -100,9 +309,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				D508F85A2E77468B00DE5B95 /* MealEngine */,
 			);
 			name = MealEngine;
 			packageProductDependencies = (
@@ -203,6 +409,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319E40732F8C830400F01504 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +434,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319E40752F8C830400F01504 /* DayDetailView.swift in Sources */,
+				319E40762F8C830400F01504 /* HistoryView.swift in Sources */,
+				319D11AD2F91CFB300335AB3 /* NetworkService.swift in Sources */,
+				3146CE4D2F92953D00DF0229 /* APIClient.swift in Sources */,
+				319E40782F8C830400F01504 /* Goals.swift in Sources */,
+				319E40902F8C9B5500F01504 /* TDEECalculatorView.swift in Sources */,
+				319E40792F8C830400F01504 /* CalendarViewModel.swift in Sources */,
+				319E407A2F8C830400F01504 /* Food.swift in Sources */,
+				319E407B2F8C830400F01504 /* PlannerView.swift in Sources */,
+				319E407C2F8C830400F01504 /* GoalsViewModel.swift in Sources */,
+				3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */,
+				319E407D2F8C830400F01504 /* TrackedDay.swift in Sources */,
+				319E407E2F8C830400F01504 /* MealPlannerViewModel.swift in Sources */,
+				319E407F2F8C830400F01504 /* Meal.swift in Sources */,
+				3146CE4B2F92881800DF0229 /* StorageService.swift in Sources */,
+				319E40802F8C830400F01504 /* AppState.swift in Sources */,
+				319E40812F8C830400F01504 /* SettingsView.swift in Sources */,
+				319E40822F8C830400F01504 /* MacroDonut.swift in Sources */,
+				319E40832F8C830400F01504 /* GoalCalendarDayCellView.swift in Sources */,
+				319E40842F8C830400F01504 /* MainView.swift in Sources */,
+				319E40852F8C830400F01504 /* DailyGoalsView.swift in Sources */,
+				319E40862F8C830400F01504 /* HistoryViewModel.swift in Sources */,
+				319E40872F8C830400F01504 /* Theme.swift in Sources */,
+				319E40882F8C830400F01504 /* MealItem.swift in Sources */,
+				319E40892F8C830400F01504 /* OpenFoodFacts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -241,6 +473,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319E408D2F8C838900F01504 /* MealEngineUITests.swift in Sources */,
+				319E408E2F8C838900F01504 /* MealEngineUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
