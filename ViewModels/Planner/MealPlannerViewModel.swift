@@ -79,170 +79,75 @@ final class MealPlannerViewModel: ObservableObject {
     }
 
     // MARK: - Fetch Food
-     // MARK: - Fetch Food
-func fetchFood() {
+    func fetchFood() {
 
-    inputErrorMessage = nil
+        inputErrorMessage = nil
 
-    let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmed =
+        query.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
 
-    // MARK: Validation
-
-    if trimmed.isEmpty {
-        inputErrorMessage = "Please enter a food name before searching."
-        return
-    }
-
-    if Double(trimmed) != nil {
-        inputErrorMessage = "Food name cannot be a number."
-        return
-    }
-
-    let trimmedCalorieLimit =
-        calorieLimit.trimmingCharacters(in: .whitespacesAndNewlines)
-
-    if trimmedCalorieLimit.isEmpty {
-        inputErrorMessage = "Please enter a calorie limit."
-        return
-    }
-
-    if trimmedCalorieLimit.first == "-" {
-        inputErrorMessage = "Calorie limit cannot be negative."
-        return
-    }
-
-    guard let limit = Double(trimmedCalorieLimit) else {
-        inputErrorMessage = "Calorie limit must be a valid number."
-        return
-    }
-
-    let encodedQuery =
-        trimmed.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed
-        ) ?? trimmed
-
-    // MARK: Primary URL (Stable legacy endpoint)
-
-    guard let primaryURL = URL(string:
-        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=20"
-    ) else {
-        inputErrorMessage = "Invalid search request."
-        return
-    }
-
-    // MARK: Backup URL
-
-    guard let backupURL = URL(string:
-        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encodedQuery)&search_simple=1&action=process&json=1&page_size=10"
-    ) else {
-        inputErrorMessage = "Invalid backup request."
-        return
-    }
-
-    Task { [weak self] in
-
-        guard let self = self else { return }
-
-        await MainActor.run {
-            self.isLoading = true
-            self.chosenFoods = []
+        if trimmed.isEmpty {
+            inputErrorMessage =
+            "Please enter a food name."
+            return
         }
 
-        do {
+        guard let limit = Double(calorieLimit) else {
+            inputErrorMessage =
+            "Enter valid calories."
+            return
+        }
 
-            print("========== FOOD SEARCH ==========")
-            print("Query:", trimmed)
-            print("Calorie Limit:", limit)
-            print("Primary URL:", primaryURL.absoluteString)
+        Task { [weak self] in
 
-            let foods = try await self.fetchFoods(
-                from: primaryURL,
-                calorieLimit: limit
-            )
+            guard let self = self else { return }
 
             await MainActor.run {
-
-                self.chosenFoods = foods
-                self.isLoading = false
-
-                if foods.isEmpty {
-                    self.inputErrorMessage =
-                    "No foods found for '\(trimmed)'."
-                }
+                self.isLoading = true
+                self.chosenFoods = []
             }
-
-        } catch {
-
-            print("Primary search failed:", error)
-            print("Trying backup endpoint...")
 
             do {
 
-                let foods = try await self.fetchFoods(
-                    from: backupURL,
+                print("Trying OpenFoodFacts...")
+
+                let foods = try await self.searchOpenFoodFacts(
+                    query: trimmed,
                     calorieLimit: limit
                 )
 
-                await MainActor.run {
-
-                    self.chosenFoods = foods
-                    self.isLoading = false
-
-                    if foods.isEmpty {
-                        self.inputErrorMessage =
-                        "No foods found for '\(trimmed)'."
-                    }
-                }
+                await self.finishSearch(foods)
 
             } catch {
 
-                print("Backup search failed:", error)
+                print("OFF failed. Trying USDA...")
 
-                await MainActor.run {
+                do {
 
-                    self.isLoading = false
-                    self.chosenFoods = []
+                    let foods = try await self.searchUSDA(
+                        query: trimmed,
+                        calorieLimit: limit
+                    )
 
-                    if let urlError = error as? URLError {
+                    await self.finishSearch(foods)
 
-                        switch urlError.code {
+                } catch {
 
-                        case .timedOut:
-                            self.inputErrorMessage =
-                            "The food database timed out."
+                    print("USDA failed. Using local fallback.")
 
-                        case .notConnectedToInternet:
-                            self.inputErrorMessage =
-                            "No internet connection."
+                    let foods =
+                    self.localFallbackFoods(
+                        query: trimmed,
+                        calorieLimit: limit
+                    )
 
-                        case .cannotConnectToHost:
-                            self.inputErrorMessage =
-                            "Unable to connect to food database."
-
-                        case .badServerResponse:
-                            self.inputErrorMessage =
-                            "Food database is temporarily unavailable."
-
-                        default:
-                            self.inputErrorMessage =
-                            "Network error: \(urlError.localizedDescription)"
-                        }
-
-                    } else if error is DecodingError {
-
-                        self.inputErrorMessage =
-                        "Food database returned unreadable data."
-
-                    } else {
-
-                        self.inputErrorMessage =
-                        "Unable to fetch foods right now."
-                    }
+                    await self.finishSearch(foods)
                 }
             }
         }
-    }
-} // end of fetchFood function
+    }// end of fetchFood function
 
 // MARK: - Helper Fetch Function
 
@@ -553,4 +458,165 @@ private func fetchFoods(
 
         return formatter.string(from: date)
     }
-}
+    
+    // MARK: - OpenFoodFacts Primary Search
+    private func searchOpenFoodFacts(
+        query: String,
+        calorieLimit: Double
+    ) async throws -> [Food] {
+
+        let encoded =
+        query.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ) ?? query
+
+        guard let url = URL(string:
+        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encoded)&search_simple=1&action=process&json=1&page_size=20"
+        ) else {
+            throw URLError(.badURL)
+        }
+
+        print("Trying OpenFoodFacts:")
+        print(url.absoluteString)
+
+        let data = try await network.get(
+            url: url,
+            ttl: 300
+        )
+
+        let decoded = try JSONDecoder()
+            .decode(OpenFoodFactsResponse.self, from: data)
+
+        let foods: [Food] = decoded.products.compactMap { (product: OpenFoodFactsProduct) -> Food? in
+            guard let name = product.product_name, let nutr = product.nutriments else {
+                return nil
+            }
+            let calories: Double = nutr.energyKcal100g ?? 0
+            let protein: Double = nutr.proteins100g ?? 0
+            let fat: Double = nutr.fat100g ?? 0
+            let carbs: Double = nutr.carbohydrates100g ?? 0
+            return Food(
+                name: name,
+                calories: calories,
+                protein: protein,
+                fat: fat,
+                carbs: carbs
+            )
+        }
+
+        print("OpenFoodFacts foods found:", foods.count)
+
+        return knapsack(
+            foods: foods,
+            calorieLimit: calorieLimit
+        )
+    } // enf of searchOpenFoodFacts
+    
+    // MARK: - USDA Backup Search
+
+    private func searchUSDA(
+        query: String,
+        calorieLimit: Double
+    ) async throws -> [Food] {
+
+        let encoded =
+        query.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed
+        ) ?? query
+
+        guard let url = URL(string:
+        "https://api.nal.usda.gov/fdc/v1/foods/search?query=\(encoded)&api_key=\(Secrets.usdaKey)"
+        ) else {
+            throw URLError(.badURL)
+        }
+
+        print("Trying USDA:", url.absoluteString)
+
+        let data = try await network.get(
+            url: url,
+            ttl: 300
+        )
+
+        let decoded = try JSONDecoder()
+            .decode(USDAResponse.self, from: data)
+
+        let foods: [Food] = decoded.foods.map { (f: USDAFood) -> Food in
+            Food(
+                name: f.description,
+                calories: f.calories,
+                protein: f.protein,
+                fat: f.fat,
+                carbs: f.carbs
+            )
+        }
+
+        print("USDA foods found:", foods.count)
+
+        return knapsack(
+            foods: foods,
+            calorieLimit: calorieLimit
+        )
+    } // end of searchUSDA
+    
+    // MARK: - Local Offline Fallback Foods
+
+    private func localFallbackFoods(
+        query: String,
+        calorieLimit: Double
+    ) -> [Food] {
+
+        let foods = [
+
+            Food(
+                name: "Cheese Quesadilla",
+                calories: 280,
+                protein: 12,
+                fat: 16,
+                carbs: 22
+            ),
+
+            Food(
+                name: "Milk",
+                calories: 103,
+                protein: 8,
+                fat: 2,
+                carbs: 12
+            ),
+
+            Food(
+                name: "Spaghetti",
+                calories: 220,
+                protein: 8,
+                fat: 1,
+                carbs: 43
+            )
+        ]
+
+        let filtered = foods.filter {
+            $0.name.lowercased()
+            .contains(query.lowercased())
+        }
+
+        return knapsack(
+            foods: filtered,
+            calorieLimit: calorieLimit
+        )
+    } // enf of localFallbackFoods
+    
+    // MARK: - Finish Search UI Update
+
+    @MainActor
+    private func finishSearch(
+        _ foods: [Food]
+    ) {
+
+        self.chosenFoods = foods
+        self.isLoading = false
+
+        if foods.isEmpty {
+            self.inputErrorMessage =
+            "No foods found."
+        }
+    }
+} // end of MealPlannerViewModel class
+
