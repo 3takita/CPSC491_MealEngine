@@ -10,6 +10,7 @@
 		3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE492F9270DE00DF0229 /* MealEngineApp.swift */; };
 		3146CE4B2F92881800DF0229 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE482F926F5200DF0229 /* StorageService.swift */; };
 		3146CE4D2F92953D00DF0229 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CE4C2F92953D00DF0229 /* APIClient.swift */; };
+		3146CFE62F9BE1B200DF0229 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3146CFE52F9BE1B200DF0229 /* Secrets.swift */; };
 		319D11AD2F91CFB300335AB3 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319D11AA2F91CFB300335AB3 /* NetworkService.swift */; };
 		319E40732F8C830400F01504 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 319E40582F8C830400F01504 /* Assets.xcassets */; };
 		319E40752F8C830400F01504 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319E406C2F8C830400F01504 /* DayDetailView.swift */; };
@@ -58,6 +59,7 @@
 		3146CE482F926F5200DF0229 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		3146CE492F9270DE00DF0229 /* MealEngineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealEngineApp.swift; sourceTree = "<group>"; };
 		3146CE4C2F92953D00DF0229 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		3146CFE52F9BE1B200DF0229 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = SOURCE_ROOT; };
 		319D11AA2F91CFB300335AB3 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		319E404D2F8C830400F01504 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		319E404F2F8C830400F01504 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				319E406C2F8C830400F01504 /* DayDetailView.swift */,
 				319E406D2F8C830400F01504 /* HistoryView.swift */,
 				319E406E2F8C830400F01504 /* PlannerView.swift */,
+				3146CFE52F9BE1B200DF0229 /* Secrets.swift */,
 				319E406F2F8C830400F01504 /* SettingsView.swift */,
 			);
 			path = Screens;
@@ -445,6 +448,7 @@
 				319E407B2F8C830400F01504 /* PlannerView.swift in Sources */,
 				319E407C2F8C830400F01504 /* GoalsViewModel.swift in Sources */,
 				3146CE4A2F9270DE00DF0229 /* MealEngineApp.swift in Sources */,
+				3146CFE62F9BE1B200DF0229 /* Secrets.swift in Sources */,
 				319E407D2F8C830400F01504 /* TrackedDay.swift in Sources */,
 				319E407E2F8C830400F01504 /* MealPlannerViewModel.swift in Sources */,
 				319E407F2F8C830400F01504 /* Meal.swift in Sources */,
