@@ -16,27 +16,25 @@ struct USDAFood: Codable {
     let foodNutrients: [USDANutrient]
 
     var calories: Double {
-        nutrientValue(for: "1008")
+        value(1008)
     }
 
     var protein: Double {
-        nutrientValue(for: "1003")
+        value(1003)
     }
 
     var fat: Double {
-        nutrientValue(for: "1004")
+        value(1004)
     }
 
     var carbs: Double {
-        nutrientValue(for: "1005")
+        value(1005)
     }
 
-    private func nutrientValue(
-        for number: String
-    ) -> Double {
+    private func value(_ id: Int) -> Double {
 
         foodNutrients.first {
-            $0.nutrientNumber == number
+            $0.nutrientId == id
         }?.value ?? 0
     }
 }
@@ -45,6 +43,24 @@ struct USDAFood: Codable {
 
 struct USDANutrient: Codable {
 
-    let nutrientNumber: String
+    let nutrientId: Int
     let value: Double
+
+    enum CodingKeys: String, CodingKey {
+        case nutrientId = "nutrientId"
+        case value
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        value = try container.decode(Double.self, forKey: .value)
+
+        // Try both formats safely
+        if let id = try? container.decode(Int.self, forKey: .nutrientId) {
+            nutrientId = id
+        } else {
+            nutrientId = 0
+        }
+    }
 }

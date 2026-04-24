@@ -209,6 +209,7 @@ private func fetchFoods(
     ) -> [Food] {
         print("Knapsack input:", foods.count) // remove
         print("Limit:", calorieLimit) // remove
+        
         guard calorieLimit > 0, !foods.isEmpty else { return [] }
 
         func nutrientValue(_ food: Food) -> Double {
@@ -228,11 +229,18 @@ private func fetchFoods(
         var remaining = calorieLimit
         var selected: [Food] = []
 
-        for food in sorted {
+        /* for food in sorted {
 
             if remaining <= 0 { break }
 
             let cals = max(food.calories, 0)
+            print("Evaluating:", food.name, "cal:", food.calories)
+
+            let cals = food.calories
+
+            //if cals <= 0 {
+            //    continue
+            //}
 
             if cals <= remaining, cals > 0 {
 
@@ -255,7 +263,35 @@ private func fetchFoods(
 
                 remaining = 0
             }
-        }
+        } */
+        for food in sorted {
+
+    print("Evaluating:", food.name, "cal:", food.calories)
+
+    let cals = max(food.calories, 0)
+
+    if cals <= remaining {
+
+        selected.append(food)
+        remaining -= cals
+
+    } else {
+
+        let fraction = remaining / cals
+
+        selected.append(
+            Food(
+                name: food.name,
+                calories: food.calories * fraction,
+                protein: food.protein * fraction,
+                fat: food.fat * fraction,
+                carbs: food.carbs * fraction
+            )
+        )
+
+        break
+    }
+}
         print("Knapsack selected:", selected.count)
         return selected
     }
@@ -513,7 +549,6 @@ private func fetchFoods(
     } // enf of searchOpenFoodFacts
     
     // MARK: - USDA Backup Search
-
     private func searchUSDA(
         query: String,
         calorieLimit: Double
@@ -540,13 +575,14 @@ private func fetchFoods(
         let decoded = try JSONDecoder()
             .decode(USDAResponse.self, from: data)
 
-        let foods: [Food] = decoded.foods.map { (f: USDAFood) -> Food in
+        let foods: [Food] = decoded.foods.map { item in
+
             Food(
-                name: f.description,
-                calories: f.calories,
-                protein: f.protein,
-                fat: f.fat,
-                carbs: f.carbs
+                name: item.description,
+                calories: item.calories,
+                protein: item.protein,
+                fat: item.fat,
+                carbs: item.carbs
             )
         }
 
@@ -559,7 +595,6 @@ private func fetchFoods(
     } // end of searchUSDA
     
     // MARK: - Local Offline Fallback Foods
-
     private func localFallbackFoods(
         query: String,
         calorieLimit: Double
