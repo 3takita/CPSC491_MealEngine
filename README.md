@@ -3,43 +3,64 @@
 
 ---
 
-## App Features
-1. **Personalized Goal Engine**
-• Calculates TDEE (Total Daily Energy Expenditure)
-• Defines calorie and macronutrient targets
+## Core Idea
+Users enter goals and search foods. MealEngine evaluates available options and recommends foods that best match calorie and macro targets. MealEngine transforms nutrition from a reactive tracking process into a proactive decision-making system, ensuring every meal constributs toward the user's health goals.
 
-2. **Knapsack Optimization Algorithm**
-• **Selects optimal food combinations** to meet calorie, protein, fat, or carbs target
-• Maximizes nutrition while respecting constraints
+## Features
 
-3. **Real-Time Food Data Integration**
-• Fetches nutritional data from external Food API
-• Supports a wide range of food options
+### Food Search
+- Search foods by name
+- OpenFoodFacts API integration
+- Fast cached search results
+- Loading/error handling
 
-4. **User Persistence**
-• Stores dietary preferences and restrictions locally
-• Maintains historical data for contunuity
+### Smart Recommendationse
+- Knapsack nutrient optimization
+- Calorie limit filtering
+- Ranked recommended foods list
 
-5. **Core Views**
-• Planner View - Home page for user good and target selection
-• Calendar View - Track dietary consistency
-• Settings View - Manage prefernces and goals
+### Nutrition Tracking
+- Calories tracked
+- Protein tracked
+- Carbs tracked
+- Fat tracked
 
-## Core Concept
-MealEngine transforms nutrition from a reactive tracking process into a proactive decision-making system, ensuring every meal constributs toward the user's health goals.
+### Meal Logging
+- Save meals
+- Daily history
+- Historical tracked days
+
+### Persistence
+- UserDefaults
+- `@AppStorage`
+- `Codable`
+- Local file storage
+
+### Architecture
+- SwiftUI
+- MVVM
+- ObservableObject ViewModels
+- Dependency Injection
+- Protocol-based services
+
+### Performance
+- Async/await networking
+- Memory cache
+- Disk cache
+- Timeout-safe requests
 
 ## Tech Stack
-• Swift
-• SwiftUI
-• Local Persistence (UserDefaults / file storage)
-• REST API integration
-• Optimization algorithms (Knapsack)
-• Storage: `UserDefaults`, `Codable`, `@AppStorage`
+
+- Swift
+- SwiftUI
+- Local Persistence (UserDefaults / file storage)
+- REST API integration (OpenFoodFacts)
+- Knapsack Optimization 
 
 ---
 
-## Core UI Elements
-MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout:
+## Core UI Components
+MealEngine uses **8–9 essential SwiftUI components** for interraction and layout:
 - `Text`
 - `TextField`
 - `Toggle`
@@ -88,9 +109,9 @@ MealEngine uses **8–9 essential SwiftUI elements** for interraction and layout
 ## Installation
 1. Clone the repository:
    `bash 
-   git clone git@github.com:3takita/CPSC491_MealEngine.git
-2. Open the project in Xcode: open MealEngine.xcodeproj
-3. Run on a simulator or physical iPhone.`
+   git clone git@github.com:3takita/CPSC491_MealEngine.git`
+2. `Open the project in Xcode: open MealEngine.xcodeproj`
+3. `Run on a simulator or physical iPhone.`
 
 --
 
