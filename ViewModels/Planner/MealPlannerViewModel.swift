@@ -259,11 +259,11 @@ private func fetchFoods(
     }
 }
         print("Knapsack selected:", selected.count)
-        print("Partial selected:", food.name)
-        print("Fraction:", fraction)
-        print("Calories added:", food.calories * fraction)
+        // print("Partial selected:", food.name)
+        // print("Fraction:", fraction)
+        // print("Calories added:", food.calories * fraction)
         print("Remaining:", remaining)
-        print("Skipped:", food.name, "needs", cals, "remaining", remaining)
+        // print("Skipped:", food.name, "needs", cals, "remaining", remaining)
         return selected
     }
 
