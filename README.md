@@ -10,7 +10,8 @@ Users enter goals and search foods. MealEngine evaluates available options and r
 
 ### Food Search
 - Search foods by name
-- OpenFoodFacts API integration
+- OpenFoodFacts API integration (primary)
+- USDA FoodData Central API integration (secondary)
 - Fast cached search results
 - Loading/error handling
 

@@ -229,41 +229,6 @@ private func fetchFoods(
         var remaining = calorieLimit
         var selected: [Food] = []
 
-        /* for food in sorted {
-
-            if remaining <= 0 { break }
-
-            let cals = max(food.calories, 0)
-            print("Evaluating:", food.name, "cal:", food.calories)
-
-            let cals = food.calories
-
-            //if cals <= 0 {
-            //    continue
-            //}
-
-            if cals <= remaining, cals > 0 {
-
-                selected.append(food)
-                remaining -= cals
-
-            } else if cals > 0 {
-
-                let fraction = remaining / cals
-
-                selected.append(
-                    Food(
-                        name: food.name,
-                        calories: food.calories * fraction,
-                        protein: food.protein * fraction,
-                        fat: food.fat * fraction,
-                        carbs: food.carbs * fraction
-                    )
-                )
-
-                remaining = 0
-            }
-        } */
         for food in sorted {
 
     print("Evaluating:", food.name, "cal:", food.calories)
