@@ -241,8 +241,8 @@ private func fetchFoods(
         remaining -= cals
 
     } else {
-
-        let fraction = remaining / cals
+        // For Fractional-Knpasack (fraction of items)
+        /*let fraction = remaining / cals
 
         selected.append(
             Food(
@@ -254,10 +254,16 @@ private func fetchFoods(
             )
         )
 
-        break
+        break */
+        continue // 0/1 Knapsack (whole items only)
     }
 }
         print("Knapsack selected:", selected.count)
+        print("Partial selected:", food.name)
+        print("Fraction:", fraction)
+        print("Calories added:", food.calories * fraction)
+        print("Remaining:", remaining)
+        print("Skipped:", food.name, "needs", cals, "remaining", remaining)
         return selected
     }
 
