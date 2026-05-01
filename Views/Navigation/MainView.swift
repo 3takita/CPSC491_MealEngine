@@ -5,6 +5,7 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedTab = 0
+    @State private var showOnboarding = false
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -48,6 +49,14 @@ struct MainView: View {
                 appState.goalsVM.sync(from: appState.plannerVM)
             }
             .tag(3)
+        }
+        .sheet(isPresented: $showOnboarding) {
+            OnboardingSurveyView(vm: appState.plannerVM)
+            .interactiveDismissDisabled(false)
+        }
+        .onAppear {
+            showOnboarding = !UserDefaults.standard
+                .bool(forKey: "hasCompletedOnboarding")
         }
     }
 }

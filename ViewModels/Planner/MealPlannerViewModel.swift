@@ -29,7 +29,23 @@ final class MealPlannerViewModel: ObservableObject {
         carbs: 250
     )
 
-    // MARK: - Outputs
+    // MARK: - Dietary Profile
+
+    @Published var dietaryProfile = DietaryProfile()
+
+    // MARK: - Search Results (free search — no knapsack until save)
+
+    @Published var searchResults: [Food] = []
+    @Published var selectedFoodIDs: Set<UUID> = []
+
+    // MARK: - Smart Recommendations
+
+    @Published var recommendedSearchResults: [Food] = []
+    @Published var recommendedSelectedIDs: Set<UUID> = []
+    @Published var recommendedQuery: String = ""
+    @Published var isLoadingRecommendations = false
+
+    // MARK: - Legacy (kept for history compatibility)
 
     @Published var chosenFoods: [Food] = []
     @Published var mealHistory: [[Food]] = []
@@ -55,11 +71,12 @@ final class MealPlannerViewModel: ObservableObject {
 
     // MARK: - Persistence Keys
 
-    private let historyKey = "MealHistory"
-    private let prefsKey = "NutrientPrefs"
-    private let goalsKey = "UserGoals"
-    private let trackedDaysKey = "TrackedDays"
-    private let dailyMealsKey = "DailyMeals"
+    private let historyKey        = "MealHistory"
+    private let prefsKey          = "NutrientPrefs"
+    private let goalsKey          = "UserGoals"
+    private let trackedDaysKey    = "TrackedDays"
+    private let dailyMealsKey     = "DailyMeals"
+    private let dietaryProfileKey = "DietaryProfile"
 
     // MARK: - Init
 
@@ -73,268 +90,231 @@ final class MealPlannerViewModel: ObservableObject {
         loadHistory()
         loadPreferences()
         loadGoals()
+        loadDietaryProfile()
         loadTrackedDays()
         loadDailyMeals()
         updateTodayProgress()
     }
 
-    // MARK: - Fetch Food
-    func fetchFood() {
+    // MARK: - Free Food Search (original card — no knapsack until save)
 
+    func fetchFood() {
         inputErrorMessage = nil
 
-        let trimmed =
-        query.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-
-        if trimmed.isEmpty {
-            inputErrorMessage =
-            "Please enter a food name."
-            return
-        }
-
-        guard let limit = Double(calorieLimit) else {
-            inputErrorMessage =
-            "Enter valid calories."
+        let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else {
+            inputErrorMessage = "Please enter a food name."
             return
         }
 
         Task { [weak self] in
-
-            guard let self = self else { return }
+            guard let self else { return }
 
             await MainActor.run {
                 self.isLoading = true
-                self.chosenFoods = []
+                self.searchResults = []
+                self.selectedFoodIDs = []
             }
 
             do {
-
-                print("Trying OpenFoodFacts...")
-
-                let foods = try await self.searchOpenFoodFacts(
-                    query: trimmed,
-                    calorieLimit: limit
-                )
-
-                await self.finishSearch(foods)
-
+                let foods = try await self.searchOpenFoodFactsRaw(query: trimmed)
+                await self.finishFreeSearch(foods)
             } catch {
-
-                print("OFF failed. Trying USDA...")
-
                 do {
-
-                    let foods = try await self.searchUSDA(
-                        query: trimmed,
-                        calorieLimit: limit
-                    )
-
-                    await self.finishSearch(foods)
-
+                    let foods = try await self.searchUSDAraw(query: trimmed)
+                    await self.finishFreeSearch(foods)
                 } catch {
-
-                    print("USDA failed. Using local fallback.")
-
-                    let foods =
-                    self.localFallbackFoods(
-                        query: trimmed,
-                        calorieLimit: limit
-                    )
-
-                    await self.finishSearch(foods)
+                    let foods = self.localFallbackFoods(query: trimmed)
+                    await self.finishFreeSearch(foods)
                 }
             }
         }
-    }// end of fetchFood function
-
-// MARK: - Helper Fetch Function
-
-private func fetchFoods(
-    from url: URL,
-    calorieLimit: Double
-) async throws -> [Food] {
-
-    let start = Date()
-
-    let data = try await network.get(url: url, ttl: 300)
-
-    let elapsed = Date().timeIntervalSince(start)
-
-    print("Finished in \(elapsed) sec")
-    print("Response bytes:", data.count)
-
-    if let raw = String(data: data, encoding: .utf8) {
-        print(raw.prefix(1000))
     }
 
-    let decoded = try JSONDecoder()
-        .decode(OpenFoodFactsResponse.self, from: data)
-
-    print("Products returned:", decoded.products.count)
-
-    let foods: [Food] = decoded.products.compactMap { product in
-
-        guard let name = product.product_name,
-              let nutr = product.nutriments else {
-            return nil
+    @MainActor
+    private func finishFreeSearch(_ foods: [Food]) {
+        self.searchResults = foods
+        self.isLoading = false
+        if foods.isEmpty {
+            self.inputErrorMessage = "No foods found."
         }
+    }
 
-        return Food(
-            name: name,
-            calories: nutr.energyKcal100g ?? 0,
-            protein: nutr.proteins100g ?? 0,
-            fat: nutr.fat100g ?? 0,
-            carbs: nutr.carbohydrates100g ?? 0
+    // MARK: - Save Selected Foods (runs knapsack at save time)
+
+    func saveSelectedFoods() {
+        let selected = searchResults.filter { selectedFoodIDs.contains($0.id) }
+        guard !selected.isEmpty else { return }
+
+        let limit = Double(calorieLimit) ?? goals.calories
+        let optimized = knapsack(
+            foods: selected,
+            calorieLimit: limit,
+            proteinTarget: goals.protein,
+            fatTarget: goals.fat,
+            carbTarget: goals.carbs
         )
+
+        mealHistory.append(optimized)
+        persistHistory()
+
+        let meal = Meal(
+            date: Date(),
+            items: optimized.map { MealItem(food: $0, amount: 100, unit: .gram) },
+            totalCalories: optimized.reduce(0) { $0 + $1.calories },
+            totalProtein:  optimized.reduce(0) { $0 + $1.protein },
+            totalFat:      optimized.reduce(0) { $0 + $1.fat },
+            totalCarbs:    optimized.reduce(0) { $0 + $1.carbs }
+        )
+        addMealToToday(meal)
+        updateTodayProgress()
+
+        searchResults = []
+        selectedFoodIDs = []
     }
 
-    print("Foods mapped:", foods.count)
+    // MARK: - Smart Recommendations
 
-    let optimized = knapsack(
-        foods: foods,
-        calorieLimit: calorieLimit
-    )
+    func fetchRecommendations() {
+        let baseQuery = recommendedQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        let suffix = dietaryProfile.searchSuffix
+        let fullQuery: String = {
+            if baseQuery.isEmpty {
+                return suffix.isEmpty ? "healthy meal" : suffix
+            } else {
+                return suffix.isEmpty ? baseQuery : "\(baseQuery) \(suffix)"
+            }
+        }()
 
-    print("Foods selected:", optimized.count)
+        Task { [weak self] in
+            guard let self else { return }
 
-    return optimized
-} // end of Helper fetchFood function 
+            await MainActor.run {
+                self.isLoadingRecommendations = true
+                self.recommendedSearchResults = []
+                self.recommendedSelectedIDs = []
+            }
 
-    // MARK: - Knapsack Algorithm
-    private func knapsack(
-        foods: [Food],
-        calorieLimit: Double
-    ) -> [Food] {
-        print("Knapsack input:", foods.count) // remove
-        print("Limit:", calorieLimit) // remove
-        
-        guard calorieLimit > 0, !foods.isEmpty else { return [] }
-
-        func nutrientValue(_ food: Food) -> Double {
-            if trackProtein { return food.protein }
-            if trackFat { return food.fat }
-            if trackCarbs { return food.carbs }
-            return food.calories
+            do {
+                let foods = try await self.searchOpenFoodFactsRaw(query: fullQuery)
+                let filtered = foods.filter { self.dietaryProfile.allows($0) }
+                let optimized = self.knapsack(
+                    foods: filtered,
+                    calorieLimit: goals.calories,
+                    proteinTarget: goals.protein,
+                    fatTarget: goals.fat,
+                    carbTarget: goals.carbs
+                )
+                await MainActor.run {
+                    self.recommendedSearchResults = optimized
+                    self.isLoadingRecommendations = false
+                    if optimized.isEmpty {
+                        self.inputErrorMessage = "No recommendations found for your dietary preferences."
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoadingRecommendations = false
+                    self.inputErrorMessage = "Could not load recommendations."
+                }
+            }
         }
+    }
+
+    func saveRecommendedSelection() {
+        let toSave = recommendedSearchResults.filter { recommendedSelectedIDs.contains($0.id) }
+        guard !toSave.isEmpty else { return }
+
+        mealHistory.append(toSave)
+        persistHistory()
+
+        let meal = Meal(
+            date: Date(),
+            items: toSave.map { MealItem(food: $0, amount: 100, unit: .gram) },
+            totalCalories: toSave.reduce(0) { $0 + $1.calories },
+            totalProtein:  toSave.reduce(0) { $0 + $1.protein },
+            totalFat:      toSave.reduce(0) { $0 + $1.fat },
+            totalCarbs:    toSave.reduce(0) { $0 + $1.carbs }
+        )
+        addMealToToday(meal)
+        updateTodayProgress()
+
+        recommendedSearchResults = []
+        recommendedSelectedIDs = []
+    }
+
+    // MARK: - Knapsack Algorithm (whole items only, multi-macro scoring)
+
+    func knapsack(
+        foods: [Food],
+        calorieLimit: Double,
+        proteinTarget: Double = 0,
+        fatTarget: Double = 0,
+        carbTarget: Double = 0
+    ) -> [Food] {
+        guard calorieLimit > 0, !foods.isEmpty else { return foods }
 
         let eps = 0.0001
+        let totalTarget = (proteinTarget * 4) + (fatTarget * 9) + (carbTarget * 4)
 
-        let sorted = foods.sorted {
-            (nutrientValue($0) / max($0.calories, eps)) >
-            (nutrientValue($1) / max($1.calories, eps))
+        func score(_ food: Food) -> Double {
+            guard food.calories > eps else { return 0 }
+            if totalTarget > 0 {
+                let pScore = proteinTarget > 0 ? (food.protein * 4 / totalTarget) : 0
+                let fScore = fatTarget > 0     ? (food.fat * 9 / totalTarget)     : 0
+                let cScore = carbTarget > 0    ? (food.carbs * 4 / totalTarget)   : 0
+                return (pScore + fScore + cScore) / food.calories
+            }
+            if trackProtein { return food.protein / food.calories }
+            if trackFat     { return food.fat / food.calories }
+            if trackCarbs   { return food.carbs / food.calories }
+            return 1.0 / food.calories
         }
 
+        let sorted = foods.filter { $0.calories > 0 }.sorted { score($0) > score($1) }
         var remaining = calorieLimit
         var selected: [Food] = []
 
-        /* for food in sorted {
-
-            if remaining <= 0 { break }
-
-            let cals = max(food.calories, 0)
-            print("Evaluating:", food.name, "cal:", food.calories)
-
-            let cals = food.calories
-
-            //if cals <= 0 {
-            //    continue
-            //}
-
-            if cals <= remaining, cals > 0 {
-
-                selected.append(food)
-                remaining -= cals
-
-            } else if cals > 0 {
-
-                let fraction = remaining / cals
-
-                selected.append(
-                    Food(
-                        name: food.name,
-                        calories: food.calories * fraction,
-                        protein: food.protein * fraction,
-                        fat: food.fat * fraction,
-                        carbs: food.carbs * fraction
-                    )
-                )
-
-                remaining = 0
-            }
-        } */
         for food in sorted {
+            guard food.calories > 0 else { continue }
+            if food.calories <= remaining {
+                selected.append(food)
+                remaining -= food.calories
+            }
+            // No fractions — whole items only
+        }
 
-    print("Evaluating:", food.name, "cal:", food.calories)
-
-    let cals = max(food.calories, 0)
-
-    if cals <= remaining {
-
-        selected.append(food)
-        remaining -= cals
-
-    } else {
-
-        let fraction = remaining / cals
-
-        selected.append(
-            Food(
-                name: food.name,
-                calories: food.calories * fraction,
-                protein: food.protein * fraction,
-                fat: food.fat * fraction,
-                carbs: food.carbs * fraction
-            )
-        )
-
-        break
-    }
-}
-        print("Knapsack selected:", selected.count)
         return selected
     }
 
-    // MARK: - Meal Management
+    // MARK: - Meal Management (legacy saveMeal kept for compatibility)
+
     func saveMeal() {
-
         guard !chosenFoods.isEmpty else { return }
-
         mealHistory.append(chosenFoods)
         persistHistory()
-
         let meal = createMealFromChosenFoods()
         addMealToToday(meal)
-
         updateTodayProgress()
-
         chosenFoods = []
     }
 
     private func createMealFromChosenFoods() -> Meal {
-
-        let items = chosenFoods.map {
-            MealItem(food: $0, amount: 100, unit: .gram)
-        }
-
+        let items = chosenFoods.map { MealItem(food: $0, amount: 100, unit: .gram) }
         return Meal(
             date: Date(),
             items: items,
             totalCalories: chosenFoods.reduce(0) { $0 + $1.calories },
-            totalProtein: chosenFoods.reduce(0) { $0 + $1.protein },
-            totalFat: chosenFoods.reduce(0) { $0 + $1.fat },
-            totalCarbs: chosenFoods.reduce(0) { $0 + $1.carbs }
+            totalProtein:  chosenFoods.reduce(0) { $0 + $1.protein },
+            totalFat:      chosenFoods.reduce(0) { $0 + $1.fat },
+            totalCarbs:    chosenFoods.reduce(0) { $0 + $1.carbs }
         )
     }
 
     private func addMealToToday(_ meal: Meal) {
-
         let key = dateString(from: Date())
         var meals = dailyMeals[key] ?? []
-
         meals.append(meal)
-
         dailyMeals[key] = meals
         persistDailyMeals()
     }
@@ -346,61 +326,49 @@ private func fetchFoods(
     // MARK: - Progress
 
     func updateTodayProgress() {
-
         let meals = getMeals(for: Date())
-
         currentCalories = meals.reduce(0) { $0 + $1.totalCalories }
-        currentProtein = meals.reduce(0) { $0 + $1.totalProtein }
-        currentFat = meals.reduce(0) { $0 + $1.totalFat }
-        currentCarbs = meals.reduce(0) { $0 + $1.totalCarbs }
-
+        currentProtein  = meals.reduce(0) { $0 + $1.totalProtein }
+        currentFat      = meals.reduce(0) { $0 + $1.totalFat }
+        currentCarbs    = meals.reduce(0) { $0 + $1.totalCarbs }
         updateTrackedDay(for: Date())
     }
 
     private func updateTrackedDay(for date: Date) {
-
         let meals = getMeals(for: date)
-
         let trackedDay = TrackedDay(
             date: date,
             calories: meals.reduce(0) { $0 + $1.totalCalories },
-            protein: meals.reduce(0) { $0 + $1.totalProtein },
-            carbs: meals.reduce(0) { $0 + $1.totalCarbs },
-            fat: meals.reduce(0) { $0 + $1.totalFat },
+            protein:  meals.reduce(0) { $0 + $1.totalProtein },
+            carbs:    meals.reduce(0) { $0 + $1.totalCarbs },
+            fat:      meals.reduce(0) { $0 + $1.totalFat },
             goalCalories: goals.calories
         )
-
-        trackedDays.removeAll {
-            Calendar.current.isDate($0.date, inSameDayAs: date)
-        }
-
+        trackedDays.removeAll { Calendar.current.isDate($0.date, inSameDayAs: date) }
         trackedDays.append(trackedDay)
-
         persistTrackedDays()
     }
 
     func getTrackedDay(for date: Date) -> TrackedDay? {
-        trackedDays.first {
-            Calendar.current.isDate($0.date, inSameDayAs: date)
-        }
+        trackedDays.first { Calendar.current.isDate($0.date, inSameDayAs: date) }
     }
 
-    // MARK: - Totals
+    // MARK: - Totals (for selected foods in free search)
 
     func totalCalories() -> Double {
-        trackCalories ? chosenFoods.reduce(0) { $0 + $1.calories } : 0
+        searchResults.filter { selectedFoodIDs.contains($0.id) }.reduce(0) { $0 + $1.calories }
     }
 
     func totalProtein() -> Double {
-        trackProtein ? chosenFoods.reduce(0) { $0 + $1.protein } : 0
+        searchResults.filter { selectedFoodIDs.contains($0.id) }.reduce(0) { $0 + $1.protein }
     }
 
     func totalFat() -> Double {
-        trackFat ? chosenFoods.reduce(0) { $0 + $1.fat } : 0
+        searchResults.filter { selectedFoodIDs.contains($0.id) }.reduce(0) { $0 + $1.fat }
     }
 
     func totalCarbs() -> Double {
-        trackCarbs ? chosenFoods.reduce(0) { $0 + $1.carbs } : 0
+        searchResults.filter { selectedFoodIDs.contains($0.id) }.reduce(0) { $0 + $1.carbs }
     }
 
     // MARK: - Persistence
@@ -415,32 +383,38 @@ private func fetchFoods(
         guard let data = storage.data(forKey: goalsKey),
               let decoded = try? JSONDecoder().decode(Goals.self, from: data)
         else { return }
-
         goals = decoded
     }
 
-    func savePreferences() {
+    func saveDietaryProfile() {
+        if let data = try? JSONEncoder().encode(dietaryProfile) {
+            storage.set(data, forKey: dietaryProfileKey)
+        }
+    }
 
+    private func loadDietaryProfile() {
+        guard let data = storage.data(forKey: dietaryProfileKey),
+              let decoded = try? JSONDecoder().decode(DietaryProfile.self, from: data)
+        else { return }
+        dietaryProfile = decoded
+    }
+
+    func savePreferences() {
         let prefs: [String: Bool] = [
             "calories": trackCalories,
-            "protein": trackProtein,
-            "fat": trackFat,
-            "carbs": trackCarbs
+            "protein":  trackProtein,
+            "fat":      trackFat,
+            "carbs":    trackCarbs
         ]
-
         storage.set(prefs, forKey: prefsKey)
     }
 
     private func loadPreferences() {
-
-        guard let prefs =
-            storage.dictionary(forKey: prefsKey) as? [String: Bool]
-        else { return }
-
+        guard let prefs = storage.dictionary(forKey: prefsKey) as? [String: Bool] else { return }
         trackCalories = prefs["calories"] ?? true
-        trackProtein = prefs["protein"] ?? true
-        trackFat = prefs["fat"] ?? false
-        trackCarbs = prefs["carbs"] ?? false
+        trackProtein  = prefs["protein"]  ?? true
+        trackFat      = prefs["fat"]      ?? false
+        trackCarbs    = prefs["carbs"]    ?? false
     }
 
     private func persistHistory() {
@@ -453,7 +427,6 @@ private func fetchFoods(
         guard let data = storage.data(forKey: historyKey),
               let decoded = try? JSONDecoder().decode([[Food]].self, from: data)
         else { return }
-
         mealHistory = decoded
     }
 
@@ -467,7 +440,6 @@ private func fetchFoods(
         guard let data = storage.data(forKey: trackedDaysKey),
               let decoded = try? JSONDecoder().decode([TrackedDay].self, from: data)
         else { return }
-
         trackedDays = decoded
     }
 
@@ -481,177 +453,67 @@ private func fetchFoods(
         guard let data = storage.data(forKey: dailyMealsKey),
               let decoded = try? JSONDecoder().decode([String: [Meal]].self, from: data)
         else { return }
-
         dailyMeals = decoded
     }
 
     // MARK: - Helpers
 
     private func dateString(from date: Date) -> String {
-
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-
         return formatter.string(from: date)
     }
-    
-    // MARK: - OpenFoodFacts Primary Search
-    private func searchOpenFoodFacts(
-        query: String,
-        calorieLimit: Double
-    ) async throws -> [Food] {
 
-        let encoded =
-        query.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed
-        ) ?? query
+    // MARK: - Raw Search Helpers (no knapsack — return full lists)
 
+    func searchOpenFoodFactsRaw(query: String) async throws -> [Food] {
+        let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
         guard let url = URL(string:
-        "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encoded)&search_simple=1&action=process&json=1&page_size=20"
-        ) else {
-            throw URLError(.badURL)
-        }
+            "https://world.openfoodfacts.org/cgi/search.pl?search_terms=\(encoded)&search_simple=1&action=process&json=1&page_size=30"
+        ) else { throw URLError(.badURL) }
 
-        print("Trying OpenFoodFacts:")
-        print(url.absoluteString)
+        let data = try await network.get(url: url, ttl: 300)
+        let decoded = try JSONDecoder().decode(OpenFoodFactsResponse.self, from: data)
 
-        let data = try await network.get(
-            url: url,
-            ttl: 300
-        )
-
-        let decoded = try JSONDecoder()
-            .decode(OpenFoodFactsResponse.self, from: data)
-
-        let foods: [Food] = decoded.products.compactMap { (product: OpenFoodFactsProduct) -> Food? in
-            guard let name = product.product_name, let nutr = product.nutriments else {
-                return nil
-            }
-            let calories: Double = nutr.energyKcal100g ?? 0
-            let protein: Double = nutr.proteins100g ?? 0
-            let fat: Double = nutr.fat100g ?? 0
-            let carbs: Double = nutr.carbohydrates100g ?? 0
+        return decoded.products.compactMap { product in
+            guard let name = product.product_name, !name.isEmpty,
+                  let nutr = product.nutriments else { return nil }
             return Food(
                 name: name,
-                calories: calories,
-                protein: protein,
-                fat: fat,
-                carbs: carbs
+                calories: nutr.energyKcal100g ?? 0,
+                protein:  nutr.proteins100g ?? 0,
+                fat:      nutr.fat100g ?? 0,
+                carbs:    nutr.carbohydrates100g ?? 0
             )
         }
+    }
 
-        print("OpenFoodFacts foods found:", foods.count)
-
-        return knapsack(
-            foods: foods,
-            calorieLimit: calorieLimit
-        )
-    } // enf of searchOpenFoodFacts
-    
-    // MARK: - USDA Backup Search
-    private func searchUSDA(
-        query: String,
-        calorieLimit: Double
-    ) async throws -> [Food] {
-
-        let encoded =
-        query.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed
-        ) ?? query
-
+    private func searchUSDAraw(query: String) async throws -> [Food] {
+        let encoded = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
         guard let url = URL(string:
-        "https://api.nal.usda.gov/fdc/v1/foods/search?query=\(encoded)&api_key=\(Secrets.usdaKey)"
-        ) else {
-            throw URLError(.badURL)
-        }
+            "https://api.nal.usda.gov/fdc/v1/foods/search?query=\(encoded)&api_key=\(Secrets.usdaKey)"
+        ) else { throw URLError(.badURL) }
 
-        print("Trying USDA:", url.absoluteString)
+        let data = try await network.get(url: url, ttl: 300)
+        let decoded = try JSONDecoder().decode(USDAResponse.self, from: data)
 
-        let data = try await network.get(
-            url: url,
-            ttl: 300
-        )
-
-        let decoded = try JSONDecoder()
-            .decode(USDAResponse.self, from: data)
-
-        let foods: [Food] = decoded.foods.map { item in
-
+        return decoded.foods.map { item in
             Food(
                 name: item.description,
                 calories: item.calories,
-                protein: item.protein,
-                fat: item.fat,
-                carbs: item.carbs
+                protein:  item.protein,
+                fat:      item.fat,
+                carbs:    item.carbs
             )
-        }
-
-        print("USDA foods found:", foods.count)
-
-        return knapsack(
-            foods: foods,
-            calorieLimit: calorieLimit
-        )
-    } // end of searchUSDA
-    
-    // MARK: - Local Offline Fallback Foods
-    private func localFallbackFoods(
-        query: String,
-        calorieLimit: Double
-    ) -> [Food] {
-
-        let foods = [
-
-            Food(
-                name: "Cheese Quesadilla",
-                calories: 280,
-                protein: 12,
-                fat: 16,
-                carbs: 22
-            ),
-
-            Food(
-                name: "Milk",
-                calories: 103,
-                protein: 8,
-                fat: 2,
-                carbs: 12
-            ),
-
-            Food(
-                name: "Spaghetti",
-                calories: 220,
-                protein: 8,
-                fat: 1,
-                carbs: 43
-            )
-        ]
-
-        let filtered = foods.filter {
-            $0.name.lowercased()
-            .contains(query.lowercased())
-        }
-
-        return knapsack(
-            foods: filtered,
-            calorieLimit: calorieLimit
-        )
-    } // enf of localFallbackFoods
-    
-    // MARK: - Finish Search UI Update
-
-    @MainActor
-    private func finishSearch(
-        _ foods: [Food]
-    ) {
-
-        self.chosenFoods = foods
-        self.isLoading = false
-
-        if foods.isEmpty {
-            self.inputErrorMessage =
-            "No foods found."
         }
     }
-} // end of MealPlannerViewModel class
 
+    private func localFallbackFoods(query: String) -> [Food] {
+        let foods = [
+            Food(name: "Cheese Quesadilla", calories: 280, protein: 12, fat: 16, carbs: 22),
+            Food(name: "Milk",              calories: 103, protein: 8,  fat: 2,  carbs: 12),
+            Food(name: "Spaghetti",         calories: 220, protein: 8,  fat: 1,  carbs: 43)
+        ]
+        return foods.filter { $0.name.lowercased().contains(query.lowercased()) }
+    }
+}
