@@ -704,7 +704,7 @@ struct TDEECalculatorView: View {
 
 // Container to hold the calculated output
 
-private struct TDEEResult {
+struct TDEEResult {
     let bmr: Double
     let tdee: Double
     let targetCalories: Double
@@ -726,7 +726,7 @@ private struct TDEEResult {
 
 // MARK: - PhysiqGoal explanation
 
-private extension PhysiqGoal {
+extension PhysiqGoal {
     var explanation: String {
         switch self {
         case .cutting:
