@@ -13,5 +13,6 @@ final class GoalsViewModel: ObservableObject {
         currentProtein = planner.currentProtein
         currentCarbs = planner.currentCarbs
         currentFat = planner.currentFat
+        goals = planner.goals  
     }
 }
