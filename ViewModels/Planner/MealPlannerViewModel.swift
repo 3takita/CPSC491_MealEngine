@@ -258,10 +258,7 @@ private func fetchFoods(
         continue // 0/1 Knapsack (whole items only)
     }
 }
-        print("Knapsack selected:", selected.count)
-        // print("Partial selected:", food.name)
-        // print("Fraction:", fraction)
-        // print("Calories added:", food.calories * fraction)
+        print("Knapsack selected:", selected.count) 
         print("Remaining:", remaining)
         // print("Skipped:", food.name, "needs", cals, "remaining", remaining)
         return selected

@@ -1,10 +1,20 @@
 # MealEngine
-**MealEngine** is a Swift-based iOS app designed to help users **meet their dietary goals before (not after) meals are consumed**. Unlike traditional calorie trackers that analyze past behavior, MealEngine meets and supports users where they are. The app leverages a Knapsack optimization algorithm to recommend meals in real time that respect user-defined goals.
+**MealEngine** is a Swift-based iOS app designed to help users **meet their dietary goals before (not after) meals are consumed**. Unlike traditional calorie trackers that analyze past behavior, MealEngine meets and supports users where they are. The app leverages a Knapsack optimization algorithm to recommend meals in real time that respect user-defined goals. What sets MealEngine apart from other related apps is this: While others are reactive by logging after eating, MealEngine optimizes before eating.
 
 ---
 
 ## Core Idea
 Users enter goals and search foods. MealEngine evaluates available options and recommends foods that best match calorie and macro targets. MealEngine transforms nutrition from a reactive tracking process into a proactive decision-making system, ensuring every meal constributs toward the user's health goals.
+
+---
+
+## Core User Stories
+As a user:
+- I want to set calorie and macro goals
+- I want to search foods quickly
+- I want food suggestions before I eat
+- I want to log meals easily
+- I want to track progress over time 
 
 ## Features
 
@@ -110,7 +120,7 @@ MealEngine uses **8–9 essential SwiftUI components** for interraction and layo
 ## Installation
 1. Clone the repository:
    `bash 
-   git clone git@github.com:3takita/CPSC491_MealEngine.git`
+   git clone git@github.com:3takita/MealEngine.git`
 2. `Open the project in Xcode: open MealEngine.xcodeproj`
 3. `Run on a simulator or physical iPhone.`
 
